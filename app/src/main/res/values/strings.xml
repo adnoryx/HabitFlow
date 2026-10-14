@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HabitFlow</string>
+    <string name="nav_today">Today</string>
+    <string name="nav_routines">Routines</string>
+    <string name="nav_trophies">Trophies</string>
+    <string name="nav_insights">Insights</string>
+
+    <string name="daily_habits_routines">DAILY HABITS &amp; ROUTINES</string>
+    <string name="today">Today</string>
+    <string name="add_routine">+ Add Routine</string>
+    <string name="edit_routine">Edit Routine</string>
+    <string name="delete_routine">Delete Routine</string>
+
+    <string name="routines_completed_fmt">%1$d of %2$d routines completed</string>
+    <string name="daily_target_ring">Daily Target Ring</string>
+    <string name="activity_goal_metrics">Activity &amp; Goal Metrics</string>
+    <string name="completed_routines">Completed Routines</string>
+    <string name="current_streak_title">Current Streak</string>
+    <string name="streak_days_fmt">%1$d Days</string>
+    <string name="streak_active_today">✅ Streak active for today!</string>
+    <string name="streak_pending_today">⏳ Complete at least 1 habit today to keep your streak</string>
+    <string name="protected_by_freeze">❄️ Protected by Day Freeze</string>
+
+    <string name="freezes_banner_fmt">%1$d/1 Used Today • %2$d Available</string>
+    <string name="use_day_freeze">Use Day Freeze</string>
+    <string name="freeze_already_used_today">Day Freeze already used today (Max 1/day)</string>
+    <string name="no_freezes_available">No Day Freezes available! Complete quests to earn more.</string>
+
+    <string name="freeze_confirmation_title">Use Day Freeze?</string>
+    <string name="freeze_confirmation_msg">Naozaj chceš použiť Day Freeze? Môžeš použiť max. 1 za deň, aby si zachoval svoj streak.</string>
+    <string name="btn_yes_use">Áno, použiť</string>
+    <string name="btn_cancel">Zrušiť</string>
+
+    <string name="freeze_quests_title">Freeze Quests</string>
+    <string name="quest_7day_streak">Get 1 freeze for 7-day streak</string>
+    <string name="quest_all_routines">Complete all today\'s routines for a chance at a freeze</string>
+    <string name="quest_reach_lvl5">Reach Level 5 for 2 extra freezes</string>
+    <string name="claim_reward">Claim Reward</string>
+    <string name="claimed">Claimed</string>
+
+    <string name="filter_all">All Routines</string>
+    <string name="filter_morning">Morning</string>
+    <string name="filter_afternoon">Afternoon</string>
+    <string name="filter_evening">Evening</string>
+
+    <string name="routine_title">Routine Title</string>
+    <string name="routine_desc">Description (optional)</string>
+    <string name="time_of_day">Time of Day</string>
+    <string name="xp_reward">XP Reward</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="lvl_fmt">Lvl %1$d</string>
+    <string name="xp_fmt">%1$d / %2$d XP</string>
+
+    <string name="language_english">English</string>
+    <string name="language_slovak">Slovenčina</string>
+    <string name="language_czech">Čeština</string>
+    <string name="select_language">Select Language</string>
+
+    <string name="backup_settings">Offline Data Transfer</string>
+    <string name="export_data">Export Data (JSON)</string>
+    <string name="import_data">Import Data (JSON)</string>
+    <string name="export_success">Data exported successfully!</string>
+    <string name="import_success">Data imported successfully!</string>
+    <string name="export_import_failed">Operation failed. Please check file format.</string>
+
+    <string name="no_routines_yet">No routines added yet. Click "+ Add Routine" above to begin!</string>
+    <string name="no_routines_time_of_day">No routines found for this time of day.</string>
+
+    <string name="rpg_stats">RPG Player Stats</string>
+    <string name="total_xp">Total XP Earned</string>
+    <string name="current_level">Current Level</string>
+    <string name="best_streak">Best Streak</string>
+    <string name="achievements">Achievements &amp; Level Milestones</string>
+
+    <string name="confirm_delete_routine">Are you sure you want to delete this routine?</string>
+
+    <!-- Achievements Strings -->
+    <string name="ach_1_title">First Step</string>
+    <string name="ach_1_desc">Earn your first XP in HabitFlow</string>
+    <string name="ach_2_title">On the Roll</string>
+    <string name="ach_2_desc">Earn 50+ total XP</string>
+    <string name="ach_3_title">Level 2 Adventurer</string>
+    <string name="ach_3_desc">Reach Level 2</string>
+    <string name="ach_4_title">Spark</string>
+    <string name="ach_4_desc">Achieve a 2-day streak</string>
+    <string name="ach_5_title">Hot Streak</string>
+    <string name="ach_5_desc">Achieve a 3-day streak</string>
+    <string name="ach_6_title">Ice Collector</string>
+    <string name="ach_6_desc">Possess at least 1 Day Freeze</string>
+    <string name="ach_7_title">Freeze Guardian</string>
+    <string name="ach_7_desc">Possess at least 3 Day Freezes</string>
+    <string name="ach_8_title">Bronze Hero</string>
+    <string name="ach_8_desc">Reach Level 5</string>
+    <string name="ach_9_title">Silver Hero</string>
+    <string name="ach_9_desc">Reach Level 10</string>
+    <string name="ach_10_title">Habit Legend</string>
+    <string name="ach_10_desc">Reach Level 25</string>
+    <string name="ach_11_title">Grand Master</string>
+    <string name="ach_11_desc">Reach Level 50</string>
+    <string name="ach_12_title">Habit God (100+)</string>
+    <string name="ach_12_desc">Reach Level 100+</string>
+</resources>

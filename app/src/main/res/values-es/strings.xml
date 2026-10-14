@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HabitFlow</string>
+    <string name="nav_today">Hoy</string>
+    <string name="nav_routines">Rutinas</string>
+    <string name="nav_trophies">Trofeos</string>
+    <string name="nav_insights">Estadísticas</string>
+
+    <string name="daily_habits_routines">HÁBITOS Y RUTINAS DIARIAS</string>
+    <string name="today">Hoy</string>
+    <string name="add_routine">+ Añadir Rutina</string>
+    <string name="edit_routine">Editar Rutina</string>
+    <string name="delete_routine">Eliminar Rutina</string>
+
+    <string name="routines_completed_fmt">%1$d de %2$d rutinas completadas</string>
+    <string name="daily_target_ring">Anillo Objetivo</string>
+    <string name="activity_goal_metrics">Métricas de Actividad</string>
+    <string name="completed_routines">Rutinas Completadas</string>
+    <string name="current_streak_title">Racha Actual</string>
+    <string name="streak_days_fmt">%1$d Días</string>
+    <string name="streak_active_today">✅ ¡Racha activa hoy!</string>
+    <string name="streak_pending_today">⏳ Completa al menos 1 hábito hoy</string>
+    <string name="protected_by_freeze">❄️ Protegido con Congelador</string>
+
+    <string name="freezes_banner_fmt">%1$d/1 Usado Hoy • %2$d Disponibles</string>
+    <string name="use_day_freeze">Usar Congelador de Día</string>
+    <string name="freeze_already_used_today">Congelador ya usado hoy (Máx 1/día)</string>
+    <string name="no_freezes_available">¡No hay congeladores disponibles!</string>
+
+    <string name="freeze_confirmation_title">¿Usar Congelador?</string>
+    <string name="freeze_confirmation_msg">¿Seguro que quieres activar un Congelador de Día?</string>
+    <string name="btn_yes_use">Sí, usar</string>
+    <string name="btn_cancel">Cancelar</string>
+
+    <string name="freeze_quests_title">Misiones de Congelador</string>
+    <string name="quest_7day_streak">Obtén 1 congelador por racha de 7 días</string>
+    <string name="quest_all_routines">Completa todas las rutinas de hoy</string>
+    <string name="quest_reach_lvl5">Alcanza el Nivel 5 para 2 congeladores</string>
+    <string name="claim_reward">Reclamar Recompensa</string>
+    <string name="claimed">Reclamado</string>
+
+    <string name="filter_all">Todas las Rutinas</string>
+    <string name="filter_morning">Mañana</string>
+    <string name="filter_afternoon">Tarde</string>
+    <string name="filter_evening">Noche</string>
+
+    <string name="routine_title">Título de Rutina</string>
+    <string name="routine_desc">Descripción (opcional)</string>
+    <string name="time_of_day">Momento del Día</string>
+    <string name="xp_reward">Recompensa XP</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+
+    <string name="lvl_fmt">Nvl %1$d</string>
+    <string name="xp_fmt">%1$d / %2$d XP</string>
+
+    <string name="language_english">English</string>
+    <string name="language_slovak">Slovenčina</string>
+    <string name="language_czech">Čeština</string>
+    <string name="select_language">Seleccionar Idioma</string>
+
+    <string name="backup_settings">Transferencia de Datos Offline</string>
+    <string name="export_data">Exportar Datos (JSON)</string>
+    <string name="import_data">Importar Datos (JSON)</string>
+    <string name="export_success">¡Datos exportados con éxito!</string>
+    <string name="import_success">¡Datos importados con éxito!</string>
+    <string name="export_import_failed">Operación fallida.</string>
+
+    <string name="no_routines_yet">¡Aún no hay rutinas añadidas!</string>
+    <string name="no_routines_time_of_day">No hay rutinas para este momento del día.</string>
+
+    <string name="rpg_stats">Estadísticas de Jugador</string>
+    <string name="total_xp">XP Total</string>
+    <string name="current_level">Nivel Actual</string>
+    <string name="best_streak">Mejor Racha</string>
+    <string name="achievements">Logros y Hitos</string>
+
+    <string name="confirm_delete_routine">¿Seguro que quieres eliminar esta rutina?</string>
+
+    <!-- Achievements Strings -->
+    <string name="ach_1_title">Primer Paso</string>
+    <string name="ach_1_desc">Gana tus primeros XP en HabitFlow</string>
+    <string name="ach_2_title">En Marcha</string>
+    <string name="ach_2_desc">Gana 50+ XP en total</string>
+    <string name="ach_3_title">Aventurero Nivel 2</string>
+    <string name="ach_3_desc">Alcanza el Nivel 2</string>
+    <string name="ach_4_title">Chispa</string>
+    <string name="ach_4_desc">Consigue una racha de 2 días</string>
+    <string name="ach_5_title">Buena Racha</string>
+    <string name="ach_5_desc">Consigue una racha de 3 días</string>
+    <string name="ach_6_title">Coleccionista de Hielo</string>
+    <string name="ach_6_desc">Posee al menos 1 Congelador de Día</string>
+    <string name="ach_7_title">Guardián del Hielo</string>
+    <string name="ach_7_desc">Posee al menos 3 Congeladores de Día</string>
+    <string name="ach_8_title">Héroe de Bronce</string>
+    <string name="ach_8_desc">Alcanza el Nivel 5</string>
+    <string name="ach_9_title">Héroe de Plata</string>
+    <string name="ach_9_desc">Alcanza el Nivel 10</string>
+    <string name="ach_10_title">Leyenda de Hábitos</string>
+    <string name="ach_10_desc">Alcanza el Nivel 25</string>
+    <string name="ach_11_title">Gran Maestro</string>
+    <string name="ach_11_desc">Alcanza el Nivel 50</string>
+    <string name="ach_12_title">Dios de Hábitos (100+)</string>
+    <string name="ach_12_desc">Alcanza el Nivel 100+</string>
+</resources>

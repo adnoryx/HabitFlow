@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HabitFlow</string>
+    <string name="nav_today">Aujourd\'hui</string>
+    <string name="nav_routines">Routines</string>
+    <string name="nav_trophies">Trophées</string>
+    <string name="nav_insights">Statistiques</string>
+
+    <string name="daily_habits_routines">HABITUDE &amp; ROUTINES QUOTIDIENNES</string>
+    <string name="today">Aujourd\'hui</string>
+    <string name="add_routine">+ Ajouter une Routine</string>
+    <string name="edit_routine">Modifier la Routine</string>
+    <string name="delete_routine">Supprimer la Routine</string>
+
+    <string name="routines_completed_fmt">%1$d sur %2$d routines terminées</string>
+    <string name="daily_target_ring">Objectif Quotidien</string>
+    <string name="activity_goal_metrics">Métriques d\'Activité</string>
+    <string name="completed_routines">Routines Terminées</string>
+    <string name="current_streak_title">Série Actuelle</string>
+    <string name="streak_days_fmt">%1$d Jours</string>
+    <string name="streak_active_today">✅ Série active aujourd\'hui !</string>
+    <string name="streak_pending_today">⏳ Complétez au moins 1 habitude aujourd\'hui</string>
+    <string name="protected_by_freeze">❄️ Protégé par Gel de Jour</string>
+
+    <string name="freezes_banner_fmt">%1$d/1 Utilisé Aujourd\'hui • %2$d Disponibles</string>
+    <string name="use_day_freeze">Utiliser le Gel de Jour</string>
+    <string name="freeze_already_used_today">Gel déjà utilisé aujourd\'hui (Max 1/jour)</string>
+    <string name="no_freezes_available">Aucun gel disponible !</string>
+
+    <string name="freeze_confirmation_title">Utiliser le Gel de Jour ?</string>
+    <string name="freeze_confirmation_msg">Voulez-vous vraiment activer un Gel de Jour ?</string>
+    <string name="btn_yes_use">Oui, utiliser</string>
+    <string name="btn_cancel">Annuler</string>
+
+    <string name="freeze_quests_title">Quêtes de Gel</string>
+    <string name="quest_7day_streak">Obtenez 1 gel pour une série de 7 jours</string>
+    <string name="quest_all_routines">Terminez toutes les routines aujourd\'hui</string>
+    <string name="quest_reach_lvl5">Atteignez le Niveau 5 pour 2 gels</string>
+    <string name="claim_reward">Réclamer la Récompense</string>
+    <string name="claimed">Réclamé</string>
+
+    <string name="filter_all">Toutes les Routines</string>
+    <string name="filter_morning">Matin</string>
+    <string name="filter_afternoon">Après-midi</string>
+    <string name="filter_evening">Soir</string>
+
+    <string name="routine_title">Titre de la Routine</string>
+    <string name="routine_desc">Description (optionnelle)</string>
+    <string name="time_of_day">Moment de la Journée</string>
+    <string name="xp_reward">Récompense XP</string>
+    <string name="save">Enregistrer</string>
+    <string name="cancel">Annuler</string>
+
+    <string name="lvl_fmt">Niv %1$d</string>
+    <string name="xp_fmt">%1$d / %2$d XP</string>
+
+    <string name="language_english">English</string>
+    <string name="language_slovak">Slovenčina</string>
+    <string name="language_czech">Čeština</string>
+    <string name="select_language">Choisir la Langue</string>
+
+    <string name="backup_settings">Transfert de Données Hors Ligne</string>
+    <string name="export_data">Exporter les Données (JSON)</string>
+    <string name="import_data">Importer les Données (JSON)</string>
+    <string name="export_success">Données exportées avec succès !</string>
+    <string name="import_success">Données importées avec succès !</string>
+    <string name="export_import_failed">Échec de l\'opération.</string>
+
+    <string name="no_routines_yet">Aucune routine ajoutée pour l\'instant !</string>
+    <string name="no_routines_time_of_day">Aucune routine pour ce moment de la journée.</string>
+
+    <string name="rpg_stats">Statistiques du Joueur</string>
+    <string name="total_xp">XP Total</string>
+    <string name="current_level">Niveau Actuel</string>
+    <string name="best_streak">Meilleure Série</string>
+    <string name="achievements">Succès &amp; Jalons</string>
+
+    <string name="confirm_delete_routine">Voulez-vous vraiment supprimer cette routine ?</string>
+
+    <!-- Achievements Strings -->
+    <string name="ach_1_title">Premier Pas</string>
+    <string name="ach_1_desc">Gagnez vos premiers XP dans HabitFlow</string>
+    <string name="ach_2_title">Sur la Lancée</string>
+    <string name="ach_2_desc">Gagnez plus de 50 XP au total</string>
+    <string name="ach_3_title">Aventurier Niveau 2</string>
+    <string name="ach_3_desc">Atteignez le Niveau 2</string>
+    <string name="ach_4_title">Étincelle</string>
+    <string name="ach_4_desc">Obtenez une série de 2 jours</string>
+    <string name="ach_5_title">Série Enflammée</string>
+    <string name="ach_5_desc">Obtenez une série de 3 jours</string>
+    <string name="ach_6_title">Collectionneur de Gel</string>
+    <string name="ach_6_desc">Possédez au moins 1 Gel de Jour</string>
+    <string name="ach_7_title">Gardien du Gel</string>
+    <string name="ach_7_desc">Possédez au moins 3 Gels de Jour</string>
+    <string name="ach_8_title">Héros de Bronze</string>
+    <string name="ach_8_desc">Atteignez le Niveau 5</string>
+    <string name="ach_9_title">Héros d\'Argent</string>
+    <string name="ach_9_desc">Atteignez le Niveau 10</string>
+    <string name="ach_10_title">Légende des Habitudes</string>
+    <string name="ach_10_desc">Atteignez le Niveau 25</string>
+    <string name="ach_11_title">Grand Maître</string>
+    <string name="ach_11_desc">Atteignez le Niveau 50</string>
+    <string name="ach_12_title">Dieu des Habitudes (100+)</string>
+    <string name="ach_12_desc">Atteignez le Niveau 100+</string>
+</resources>

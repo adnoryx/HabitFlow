@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HabitFlow</string>
+    <string name="nav_today">Dnes</string>
+    <string name="nav_routines">Rutiny</string>
+    <string name="nav_trophies">Trofeje</string>
+    <string name="nav_insights">Prehľad</string>
+
+    <string name="daily_habits_routines">DENNÉ NÁVYKY A RUTINY</string>
+    <string name="today">Dnes</string>
+    <string name="add_routine">+ Pridať rutinu</string>
+    <string name="edit_routine">Upraviť rutinu</string>
+    <string name="delete_routine">Odstrániť rutinu</string>
+
+    <string name="routines_completed_fmt">%1$d z %2$d rutín dokončených</string>
+    <string name="daily_target_ring">Denný cieľový kruh</string>
+    <string name="activity_goal_metrics">Metriky aktivity a cieľov</string>
+    <string name="completed_routines">Dokončené rutiny</string>
+    <string name="current_streak_title">Aktuálny Streak</string>
+    <string name="streak_days_fmt">%1$d Dní</string>
+    <string name="streak_active_today">✅ Streak je dnes aktívny!</string>
+    <string name="streak_pending_today">⏳ Dokonči dnes aspoň 1 návyk na udržanie streaku</string>
+    <string name="protected_by_freeze">❄️ Chránené Mrazením dňa</string>
+
+    <string name="freezes_banner_fmt">%1$d/1 Použité dnes • %2$d k dispozícii</string>
+    <string name="use_day_freeze">Použiť Day Freeze</string>
+    <string name="freeze_already_used_today">Day Freeze už bol dnes použitý (Max 1/deň)</string>
+    <string name="no_freezes_available">Žiadne Day Freezy k dispozícii! Splň úlohy pre ďalšie.</string>
+
+    <string name="freeze_confirmation_title">Použiť Day Freeze?</string>
+    <string name="freeze_confirmation_msg">Naozaj chceš použiť Day Freeze? Môžeš použiť max. 1 za deň, aby si zachoval svoj streak.</string>
+    <string name="btn_yes_use">Áno, použiť</string>
+    <string name="btn_cancel">Zrušiť</string>
+
+    <string name="freeze_quests_title">Úlohy pre Freeze</string>
+    <string name="quest_7day_streak">Získaj 1 freeze za 7-dňový streak</string>
+    <string name="quest_all_routines">Dokonči všetky dnešné rutiny pre šancu na freeze</string>
+    <string name="quest_reach_lvl5">Dosiahni Level 5 pre 2 extra freezy</string>
+    <string name="claim_reward">Vyzdvihnúť odmenu</string>
+    <string name="claimed">Vyzdvihnuté</string>
+
+    <string name="filter_all">Všetky rutiny</string>
+    <string name="filter_morning">Ráno</string>
+    <string name="filter_afternoon">Popoludnie</string>
+    <string name="filter_evening">Večer</string>
+
+    <string name="routine_title">Názov rutiny</string>
+    <string name="routine_desc">Popis (voliteľné)</string>
+    <string name="time_of_day">Denná doba</string>
+    <string name="xp_reward">Odmena XP</string>
+    <string name="save">Uložiť</string>
+    <string name="cancel">Zrušiť</string>
+
+    <string name="lvl_fmt">Lvl %1$d</string>
+    <string name="xp_fmt">%1$d / %2$d XP</string>
+
+    <string name="language_english">English</string>
+    <string name="language_slovak">Slovenčina</string>
+    <string name="language_czech">Čeština</string>
+    <string name="select_language">Vybrať jazyk</string>
+
+    <string name="backup_settings">Offline prenos dát</string>
+    <string name="export_data">Exportovať dáta (JSON)</string>
+    <string name="import_data">Importovať dáta (JSON)</string>
+    <string name="export_success">Dáta boli úspešne exportované!</string>
+    <string name="import_success">Dáta boli úspešne importované!</string>
+    <string name="export_import_failed">Operácia zlyhala. Skontrolujte formát súboru.</string>
+
+    <string name="no_routines_yet">Zatiaľ žiadne rutiny. Kliknite na "+ Pridať rutinu" vyššie pre začatie!</string>
+    <string name="no_routines_time_of_day">Žiadne rutiny pre túto dennú dobu.</string>
+
+    <string name="rpg_stats">RPG Štatistiky Hráča</string>
+    <string name="total_xp">Celkovo získané XP</string>
+    <string name="current_level">Aktuálny Level</string>
+    <string name="best_streak">Najlepší Streak</string>
+    <string name="achievements">Úspechy a Level míľniky</string>
+
+    <string name="confirm_delete_routine">Naozaj chcete odstrániť túto rutinu?</string>
+
+    <!-- Achievements Strings -->
+    <string name="ach_1_title">Prvý krok</string>
+    <string name="ach_1_desc">Získaj svoje prvé XP v HabitFlow</string>
+    <string name="ach_2_title">V plnom prúde</string>
+    <string name="ach_2_desc">Získaj celkovo 50+ XP</string>
+    <string name="ach_3_title">Dobrodruh Level 2</string>
+    <string name="ach_3_desc">Dosiahni Level 2</string>
+    <string name="ach_4_title">Iskra</string>
+    <string name="ach_4_desc">Dosiahni 2-dňový streak</string>
+    <string name="ach_5_title">Horúci Streak</string>
+    <string name="ach_5_desc">Dosiahni 3-dňový streak</string>
+    <string name="ach_6_title">Zberateľ ľadu</string>
+    <string name="ach_6_desc">Vlastni aspoň 1 Day Freeze</string>
+    <string name="ach_7_title">Strážca mrazu</string>
+    <string name="ach_7_desc">Vlastni aspoň 3 Day Freezy</string>
+    <string name="ach_8_title">Bronzový hrdina</string>
+    <string name="ach_8_desc">Dosiahni Level 5</string>
+    <string name="ach_9_title">Strieborný hrdina</string>
+    <string name="ach_9_desc">Dosiahni Level 10</string>
+    <string name="ach_10_title">Legenda návykov</string>
+    <string name="ach_10_desc">Dosiahni Level 25</string>
+    <string name="ach_11_title">Veľký majster</string>
+    <string name="ach_11_desc">Dosiahni Level 50</string>
+    <string name="ach_12_title">Boh návykov (100+)</string>
+    <string name="ach_12_desc">Dosiahni Level 100+</string>
+</resources>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HabitFlow</string>
+    <string name="nav_today">Dzisiaj</string>
+    <string name="nav_routines">Rutyny</string>
+    <string name="nav_trophies">Trofea</string>
+    <string name="nav_insights">Statystyki</string>
+
+    <string name="daily_habits_routines">NAWYKI I RUTYNY</string>
+    <string name="today">Dzisiaj</string>
+    <string name="add_routine">+ Dodaj Rutynę</string>
+    <string name="edit_routine">Edytuj Rutynę</string>
+    <string name="delete_routine">Usuń Rutynę</string>
+
+    <string name="routines_completed_fmt">Ukończono %1$d z %2$d rutyn</string>
+    <string name="daily_target_ring">Cel Dzienny</string>
+    <string name="activity_goal_metrics">Statystyki Aktywności</string>
+    <string name="completed_routines">Ukończone Rutyny</string>
+    <string name="current_streak_title">Aktualna Seria</string>
+    <string name="streak_days_fmt">%1$d Dni</string>
+    <string name="streak_active_today">✅ Seria jest dzisiaj aktywna!</string>
+    <string name="streak_pending_today">⏳ Ukończ dzisiaj przynajmniej 1 nawyk</string>
+    <string name="protected_by_freeze">❄️ Chronione Zamrożeniem</string>
+
+    <string name="freezes_banner_fmt">%1$d/1 Użyte Dzisiaj • %2$d Dostępne</string>
+    <string name="use_day_freeze">Użyj Zamrożenia Dnia</string>
+    <string name="freeze_already_used_today">Zamrożenie już użyte dzisiaj (Maks 1/dzień)</string>
+    <string name="no_freezes_available">Brak dostępnych zamrożeń!</string>
+
+    <string name="freeze_confirmation_title">Użyć Zamrożenia Dnia?</string>
+    <string name="freeze_confirmation_msg">Czy na pewno chcesz aktywować Zamrożenie Dnia?</string>
+    <string name="btn_yes_use">Tak, użyj</string>
+    <string name="btn_cancel">Anuluj</string>
+
+    <string name="freeze_quests_title">Zadania Zamrożenia</string>
+    <string name="quest_7day_streak">Otrzymaj 1 zamrożenie za serię 7 dni</string>
+    <string name="quest_all_routines">Ukończ wszystkie dzisiejsze rutyny</string>
+    <string name="quest_reach_lvl5">Osiągnij Poziom 5 dla 2 zamrożeń</string>
+    <string name="claim_reward">Odbierz Nagrodę</string>
+    <string name="claimed">Odebrane</string>
+
+    <string name="filter_all">Wszystkie Rutyny</string>
+    <string name="filter_morning">Rano</string>
+    <string name="filter_afternoon">Popołudnie</string>
+    <string name="filter_evening">Wieczór</string>
+
+    <string name="routine_title">Tytuł Rutyny</string>
+    <string name="routine_desc">Opis (opcjonalny)</string>
+    <string name="time_of_day">Pora Dnia</string>
+    <string name="xp_reward">Nagroda XP</string>
+    <string name="save">Zapisz</string>
+    <string name="cancel">Anuluj</string>
+
+    <string name="lvl_fmt">Poz %1$d</string>
+    <string name="xp_fmt">%1$d / %2$d XP</string>
+
+    <string name="language_english">English</string>
+    <string name="language_slovak">Slovenčina</string>
+    <string name="language_czech">Čeština</string>
+    <string name="select_language">Wybierz Język</string>
+
+    <string name="backup_settings">Transfer Danych Offline</string>
+    <string name="export_data">Eksportuj Dane (JSON)</string>
+    <string name="import_data">Importuj Dane (JSON)</string>
+    <string name="export_success">Dane wyeksportowane pomyślnie!</string>
+    <string name="import_success">Dane zaimportowane pomyślnie!</string>
+    <string name="export_import_failed">Operacja nie powiodła się.</string>
+
+    <string name="no_routines_yet">Brak dodanych rutyn!</string>
+    <string name="no_routines_time_of_day">Brak rutyn na tę porę dnia.</string>
+
+    <string name="rpg_stats">Statystyki Gracza RPG</string>
+    <string name="total_xp">Całkowite XP</string>
+    <string name="current_level">Aktualny Poziom</string>
+    <string name="best_streak">Najlepsza Seria</string>
+    <string name="achievements">Osiągnięcia i Kamienie Milowe</string>
+
+    <string name="confirm_delete_routine">Czy na pewno chcesz usunąć tę rutynę?</string>
+
+    <!-- Achievements Strings -->
+    <string name="ach_1_title">Pierwszy Krok</string>
+    <string name="ach_1_desc">Zdobądź swoje pierwsze XP w HabitFlow</string>
+    <string name="ach_2_title">W Biegu</string>
+    <string name="ach_2_desc">Zdobądź łącznie 50+ XP</string>
+    <string name="ach_3_title">Odkrywca Poziom 2</string>
+    <string name="ach_3_desc">Osiągnij Poziom 2</string>
+    <string name="ach_4_title">Iskra</string>
+    <string name="ach_4_desc">Osiągnij serię 2 dni</string>
+    <string name="ach_5_title">Gorąca Seria</string>
+    <string name="ach_5_desc">Osiągnij serię 3 dni</string>
+    <string name="ach_6_title">Zbieracz Lodu</string>
+    <string name="ach_6_desc">Posiadaj przynajmniej 1 Zamrożenie Dnia</string>
+    <string name="ach_7_title">Strażnik Mrozu</string>
+    <string name="ach_7_desc">Posiadaj przynajmniej 3 Zamrożenia Dnia</string>
+    <string name="ach_8_title">Brązowy Bohater</string>
+    <string name="ach_8_desc">Osiągnij Poziom 5</string>
+    <string name="ach_9_title">Srebrny Bohater</string>
+    <string name="ach_9_desc">Osiągnij Poziom 10</string>
+    <string name="ach_10_title">Legenda Nawyków</string>
+    <string name="ach_10_desc">Osiągnij Poziom 25</string>
+    <string name="ach_11_title">Wielki Mistrz</string>
+    <string name="ach_11_desc">Osiągnij Poziom 50</string>
+    <string name="ach_12_title">Bóg Nawyków (100+)</string>
+    <string name="ach_12_desc">Osiągnij Poziom 100+</string>
+</resources>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HabitFlow</string>
+    <string name="nav_today">Oggi</string>
+    <string name="nav_routines">Routine</string>
+    <string name="nav_trophies">Trofei</string>
+    <string name="nav_insights">Statistiche</string>
+
+    <string name="daily_habits_routines">ABITUDINI E ROUTINE GIORNALIERE</string>
+    <string name="today">Oggi</string>
+    <string name="add_routine">+ Aggiungi Routine</string>
+    <string name="edit_routine">Modifica Routine</string>
+    <string name="delete_routine">Elimina Routine</string>
+
+    <string name="routines_completed_fmt">%1$d di %2$d routine completate</string>
+    <string name="daily_target_ring">Obiettivo Giornaliero</string>
+    <string name="activity_goal_metrics">Metriche di Attività</string>
+    <string name="completed_routines">Routine Completate</string>
+    <string name="current_streak_title">Serie Attuale</string>
+    <string name="streak_days_fmt">%1$d Giorni</string>
+    <string name="streak_active_today">✅ Serie attiva oggi!</string>
+    <string name="streak_pending_today">⏳ Completa almeno 1 abitudine oggi</string>
+    <string name="protected_by_freeze">❄️ Protetto con Congelamento</string>
+
+    <string name="freezes_banner_fmt">%1$d/1 Usato Oggi • %2$d Disponibili</string>
+    <string name="use_day_freeze">Usa Congelamento Giornaliero</string>
+    <string name="freeze_already_used_today">Congelamento già usato oggi (Max 1/giorno)</string>
+    <string name="no_freezes_available">Nessun congelamento disponibile!</string>
+
+    <string name="freeze_confirmation_title">Usare il Congelamento?</string>
+    <string name="freeze_confirmation_msg">Sei sicuro di voler attivare il Congelamento?</string>
+    <string name="btn_yes_use">Sì, usa</string>
+    <string name="btn_cancel">Annulla</string>
+
+    <string name="freeze_quests_title">Missioni Congelamento</string>
+    <string name="quest_7day_streak">Ottieni 1 congelamento per una serie di 7 giorni</string>
+    <string name="quest_all_routines">Completa tutte le routine di oggi</string>
+    <string name="quest_reach_lvl5">Raggiungi il Livello 5 per 2 congelamenti</string>
+    <string name="claim_reward">Riscatta Ricompensa</string>
+    <string name="claimed">Riscattato</string>
+
+    <string name="filter_all">Tutte le Routine</string>
+    <string name="filter_morning">Mattina</string>
+    <string name="filter_afternoon">Pomeriggio</string>
+    <string name="filter_evening">Sera</string>
+
+    <string name="routine_title">Titolo Routine</string>
+    <string name="routine_desc">Descrizione (opzionale)</string>
+    <string name="time_of_day">Momento della Giornata</string>
+    <string name="xp_reward">Ricompensa XP</string>
+    <string name="save">Salva</string>
+    <string name="cancel">Annulla</string>
+
+    <string name="lvl_fmt">Liv %1$d</string>
+    <string name="xp_fmt">%1$d / %2$d XP</string>
+
+    <string name="language_english">English</string>
+    <string name="language_slovak">Slovenčina</string>
+    <string name="language_czech">Čeština</string>
+    <string name="select_language">Seleziona Lingua</string>
+
+    <string name="backup_settings">Trasferimento Dati Offline</string>
+    <string name="export_data">Esporta Dati (JSON)</string>
+    <string name="import_data">Importa Dati (JSON)</string>
+    <string name="export_success">Dati esportati con successo!</string>
+    <string name="import_success">Dati importati con successo!</string>
+    <string name="export_import_failed">Operazione fallita.</string>
+
+    <string name="no_routines_yet">Nessuna routine aggiunta finora!</string>
+    <string name="no_routines_time_of_day">Nessuna routine per questo momento della giornata.</string>
+
+    <string name="rpg_stats">Statistiche Giocatore RPG</string>
+    <string name="total_xp">XP Totali</string>
+    <string name="current_level">Livello Attuale</string>
+    <string name="best_streak">Migliore Serie</string>
+    <string name="achievements">Obiettivi e Traguardi</string>
+
+    <string name="confirm_delete_routine">Sei sicuro di voler eliminare questa routine ?</string>
+
+    <!-- Achievements Strings -->
+    <string name="ach_1_title">Primo Passo</string>
+    <string name="ach_1_desc">Guadagna i tuoi primi XP in HabitFlow</string>
+    <string name="ach_2_title">In Marcia</string>
+    <string name="ach_2_desc">Guadagna 50+ XP totali</string>
+    <string name="ach_3_title">Avventuriero Livello 2</string>
+    <string name="ach_3_desc">Raggiungi il Livello 2</string>
+    <string name="ach_4_title">Scintilla</string>
+    <string name="ach_4_desc">Raggiungi una serie di 2 giorni</string>
+    <string name="ach_5_title">Serie Calda</string>
+    <string name="ach_5_desc">Raggiungi una serie di 3 giorni</string>
+    <string name="ach_6_title">Collezionista di Ghiaccio</string>
+    <string name="ach_6_desc">Possiedi almeno 1 Congelamento</string>
+    <string name="ach_7_title">Custode del Gelo</string>
+    <string name="ach_7_desc">Possiedi almeno 3 Congelamenti</string>
+    <string name="ach_8_title">Eroe di Bronzo</string>
+    <string name="ach_8_desc">Raggiungi il Livello 5</string>
+    <string name="ach_9_title">Eroe d\'Argento</string>
+    <string name="ach_9_desc">Raggiungi il Livello 10</string>
+    <string name="ach_10_title">Leggenda delle Abitudini</string>
+    <string name="ach_10_desc">Raggiungi il Livello 25</string>
+    <string name="ach_11_title">Gran Maestro</string>
+    <string name="ach_11_desc">Raggiungi il Livello 50</string>
+    <string name="ach_12_title">Dio delle Abitudini (100+)</string>
+    <string name="ach_12_desc">Raggiungi il Livello 100+</string>
+</resources>

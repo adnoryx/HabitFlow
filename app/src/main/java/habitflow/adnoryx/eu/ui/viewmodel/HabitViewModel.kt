@@ -7,12 +7,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import habitflow.adnoryx.eu.data.model.FreezeQuest
 import habitflow.adnoryx.eu.data.model.Habit
+import habitflow.adnoryx.eu.data.model.HabitCategory
 import habitflow.adnoryx.eu.data.model.HabitCompletion
+import habitflow.adnoryx.eu.data.model.HabitType
 import habitflow.adnoryx.eu.data.model.TimeOfDay
 import habitflow.adnoryx.eu.data.model.UserProfile
 import habitflow.adnoryx.eu.data.repository.BackupRepository
 import habitflow.adnoryx.eu.data.repository.HabitRepository
 import habitflow.adnoryx.eu.util.DateUtils
+import habitflow.adnoryx.eu.util.NotificationHelper
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -32,6 +35,12 @@ class HabitViewModel(
     val activeHabits: StateFlow<List<Habit>> = repository.activeHabits
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
+    val archivedHabits: StateFlow<List<Habit>> = repository.archivedHabits
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    val allCompletions: StateFlow<List<HabitCompletion>> = repository.allCompletions
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
     val freezeQuests: StateFlow<List<FreezeQuest>> = repository.freezeQuests
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
@@ -40,6 +49,9 @@ class HabitViewModel(
 
     private val _timeOfDayFilter = MutableStateFlow<TimeOfDay?>(null)
     val timeOfDayFilter: StateFlow<TimeOfDay?> = _timeOfDayFilter.asStateFlow()
+
+    private val _categoryFilter = MutableStateFlow<HabitCategory?>(null)
+    val categoryFilter: StateFlow<HabitCategory?> = _categoryFilter.asStateFlow()
 
     val completionsForSelectedDate: StateFlow<List<HabitCompletion>> = _selectedDate
         .flatMapLatest { date -> repository.getCompletionsForDate(date) }
@@ -60,6 +72,9 @@ class HabitViewModel(
     private val _toastMessage = MutableStateFlow<String?>(null)
     val toastMessage: StateFlow<String?> = _toastMessage.asStateFlow()
 
+    private val _celebrationTrigger = MutableStateFlow(0L)
+    val celebrationTrigger: StateFlow<Long> = _celebrationTrigger.asStateFlow()
+
     init {
         viewModelScope.launch {
             repository.ensureProfileAndQuestsInitialized()
@@ -74,15 +89,52 @@ class HabitViewModel(
         _timeOfDayFilter.value = filter
     }
 
+    fun setCategoryFilter(category: HabitCategory?) {
+        _categoryFilter.value = category
+    }
+
     fun toggleHabitCompletion(habit: Habit) {
         viewModelScope.launch {
-            repository.toggleHabitCompletion(habit, _selectedDate.value)
+            val prevLevel = userProfile.value?.level ?: 1
+            val becameCompleted = repository.toggleHabitCompletion(habit, _selectedDate.value)
+            val newLevel = userProfile.value?.level ?: prevLevel
+            val activeCount = activeHabits.value.size
+            val doneToday = completionsForSelectedDate.value.count { it.isCompleted } + (if (becameCompleted) 1 else -1)
+
+            if (becameCompleted && (newLevel > prevLevel || (activeCount > 0 && doneToday >= activeCount))) {
+                _celebrationTrigger.value = System.currentTimeMillis()
+            }
+        }
+    }
+
+    fun updateHabitProgress(habit: Habit, newProgress: Int) {
+        viewModelScope.launch {
+            val prevLevel = userProfile.value?.level ?: 1
+            val becameCompleted = repository.updateHabitProgress(habit, _selectedDate.value, newProgress)
+            val newLevel = userProfile.value?.level ?: prevLevel
+            val activeCount = activeHabits.value.size
+            val doneToday = completionsForSelectedDate.value.count { it.isCompleted } + (if (becameCompleted) 1 else 0)
+
+            if (becameCompleted && (newLevel > prevLevel || (activeCount > 0 && doneToday >= activeCount))) {
+                _celebrationTrigger.value = System.currentTimeMillis()
+            }
+        }
+    }
+
+    fun buyFreezeWithXp(costXp: Int = 150) {
+        viewModelScope.launch {
+            val success = repository.buyFreezeWithXp(costXp)
+            if (success) {
+                _toastMessage.value = "freeze_purchased"
+                _celebrationTrigger.value = System.currentTimeMillis()
+            } else {
+                _toastMessage.value = "not_enough_xp"
+            }
         }
     }
 
     fun onRequestDayFreeze() {
-        val profile = userProfile.value
-        if (profile == null) return
+        val profile = userProfile.value ?: return
 
         if (profile.freezesUsedToday >= 1) {
             _toastMessage.value = "already_used_today"
@@ -112,6 +164,7 @@ class HabitViewModel(
     fun claimQuest(questId: String) {
         viewModelScope.launch {
             repository.claimQuestReward(questId)
+            _celebrationTrigger.value = System.currentTimeMillis()
         }
     }
 
@@ -130,27 +183,75 @@ class HabitViewModel(
         _editingHabit.value = null
     }
 
-    fun saveHabit(title: String, description: String, timeOfDay: TimeOfDay, xpValue: Int) {
+    fun saveHabit(
+        context: Context,
+        title: String,
+        description: String,
+        timeOfDay: TimeOfDay,
+        xpValue: Int,
+        icon: String = "⚡",
+        category: HabitCategory = HabitCategory.GENERAL,
+        habitType: HabitType = HabitType.BOOLEAN,
+        targetValue: Int = 1,
+        unit: String = "",
+        reminderTime: String? = null
+    ) {
         val habitToEdit = _editingHabit.value
         viewModelScope.launch {
             if (habitToEdit == null) {
-                repository.addHabit(title, description, timeOfDay, xpValue)
-            } else {
-                repository.updateHabit(
-                    habitToEdit.copy(
-                        title = title,
-                        description = description,
-                        timeOfDay = timeOfDay,
-                        xpValue = xpValue
-                    )
+                val created = repository.addHabit(
+                    title = title,
+                    description = description,
+                    timeOfDay = timeOfDay,
+                    xpValue = xpValue,
+                    icon = icon,
+                    category = category,
+                    habitType = habitType,
+                    targetValue = targetValue,
+                    unit = unit,
+                    reminderTime = reminderTime
                 )
+                NotificationHelper.scheduleHabitReminder(context, created)
+            } else {
+                val updated = habitToEdit.copy(
+                    title = title,
+                    description = description,
+                    timeOfDay = timeOfDay,
+                    xpValue = xpValue,
+                    icon = icon,
+                    category = category,
+                    habitType = habitType,
+                    targetValue = targetValue,
+                    unit = unit,
+                    reminderTime = reminderTime
+                )
+                repository.updateHabit(updated)
+                NotificationHelper.scheduleHabitReminder(context, updated)
             }
             dismissAddEditHabitDialog()
         }
     }
 
-    fun deleteHabit(habit: Habit) {
+    fun archiveHabit(context: Context, habit: Habit, archived: Boolean) {
         viewModelScope.launch {
+            repository.archiveHabit(habit, archived)
+            if (archived) {
+                NotificationHelper.cancelHabitReminder(context, habit.id)
+            } else {
+                NotificationHelper.scheduleHabitReminder(context, habit.copy(isArchived = false))
+            }
+        }
+    }
+
+    fun moveHabitOrder(habit: Habit, moveUp: Boolean) {
+        viewModelScope.launch {
+            repository.moveHabitOrder(habit, moveUp)
+        }
+    }
+
+    fun deleteHabit(context: Context, habit: Habit) {
+        viewModelScope.launch {
+            NotificationHelper.cancelHabitReminder(context, habit.id)
             repository.deleteHabit(habit)
         }
     }

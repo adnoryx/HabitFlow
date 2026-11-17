@@ -1,6 +1,7 @@
 package habitflow.adnoryx.eu.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -8,8 +9,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
@@ -19,15 +22,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import habitflow.adnoryx.eu.data.model.UserProfile
+import habitflow.adnoryx.eu.ui.theme.GamingBackground
 import habitflow.adnoryx.eu.ui.theme.GamingBlue
+import habitflow.adnoryx.eu.ui.theme.GamingBorder
 import habitflow.adnoryx.eu.ui.theme.GamingSurface
 import habitflow.adnoryx.eu.ui.theme.StreakFlame
+import habitflow.adnoryx.eu.ui.theme.TextPrimary
 import habitflow.adnoryx.eu.ui.theme.TextSecondary
+import habitflow.adnoryx.eu.ui.theme.WarmButterBorder
+import habitflow.adnoryx.eu.ui.theme.WarmButterYellow
 
 @Composable
 fun HeaderTopBar(
@@ -36,68 +44,103 @@ fun HeaderTopBar(
 ) {
     val level = userProfile?.level ?: 1
     val streak = userProfile?.currentStreak ?: 0
+    val freezes = userProfile?.totalFreezes ?: 0
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp, vertical = 12.dp),
+            .background(GamingBackground)
+            .statusBarsPadding()
+            .padding(horizontal = 20.dp, vertical = 10.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
+        // Breadcrumb-style pill like "🏠 HabitFlow / Lvl 2"
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .weight(1f, fill = false)
+                .clip(RoundedCornerShape(14.dp))
+                .background(GamingSurface)
+                .border(1.dp, GamingBorder, RoundedCornerShape(14.dp))
+                .padding(horizontal = 12.dp, vertical = 7.dp)
+        ) {
+            Text(
+                text = "🏠 HabitFlow",
+                color = TextPrimary,
+                fontWeight = FontWeight.Bold,
+                fontSize = 13.sp,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = "  /  ",
+                color = TextSecondary,
+                fontSize = 12.sp,
+                maxLines = 1
+            )
+            Text(
+                text = "Lvl $level",
+                color = GamingBlue,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 13.sp,
+                maxLines = 1
+            )
+        }
+
+        Spacer(modifier = Modifier.width(8.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
             Box(
                 modifier = Modifier
                     .clip(CircleShape)
-                    .background(GamingBlue)
-                    .padding(horizontal = 14.dp, vertical = 6.dp)
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(6.dp)
-                            .clip(CircleShape)
-                            .background(Color.White)
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                    Text(
-                        text = "Lvl $level",
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 13.sp
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.width(8.dp))
-
-            Box(
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .background(GamingSurface)
-                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                    .background(WarmButterYellow)
+                    .border(1.dp, WarmButterBorder, CircleShape)
+                    .padding(horizontal = 11.dp, vertical = 6.dp)
             ) {
                 Text(
                     text = "🔥 ${streak}d",
                     color = StreakFlame,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 13.sp
+                    fontSize = 12.sp,
+                    maxLines = 1
                 )
             }
-        }
 
-        IconButton(
-            onClick = onSettingsClick,
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(GamingSurface)
-        ) {
-            Icon(
-                imageVector = Icons.Default.Settings,
-                contentDescription = "Settings",
-                tint = TextSecondary,
-                modifier = Modifier.size(20.dp)
-            )
+            Box(
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .background(GamingSurface)
+                    .border(1.dp, GamingBorder, CircleShape)
+                    .padding(horizontal = 10.dp, vertical = 6.dp)
+            ) {
+                Text(
+                    text = "❄️ $freezes",
+                    color = TextPrimary,
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 12.sp,
+                    maxLines = 1
+                )
+            }
+
+            IconButton(
+                onClick = onSettingsClick,
+                modifier = Modifier
+                    .size(36.dp)
+                    .clip(CircleShape)
+                    .background(GamingSurface)
+                    .border(1.dp, GamingBorder, CircleShape)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "Settings",
+                    tint = TextPrimary,
+                    modifier = Modifier.size(18.dp)
+                )
+            }
         }
     }
 }

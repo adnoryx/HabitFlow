@@ -1,6 +1,7 @@
 package habitflow.adnoryx.eu.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
@@ -17,8 +18,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import habitflow.adnoryx.eu.data.model.TimeOfDay
+import habitflow.adnoryx.eu.ui.theme.CharcoalDarkCard
+import habitflow.adnoryx.eu.ui.theme.GamingBorder
 import habitflow.adnoryx.eu.ui.theme.GamingSurface
-import habitflow.adnoryx.eu.ui.theme.TextSecondary
+import habitflow.adnoryx.eu.ui.theme.TextPrimary
 
 data class FilterItem(
     val type: TimeOfDay?,
@@ -40,25 +43,30 @@ fun TimeOfDayFilterChips(
     )
 
     LazyRow(
-        modifier = Modifier.padding(vertical = 12.dp)
+        modifier = Modifier.padding(vertical = 10.dp)
     ) {
         items(filters) { item ->
             val isSelected = (item.type == selectedFilter)
-            val bg = if (isSelected) Color.White else GamingSurface
-            val textColor = if (isSelected) Color.Black else TextSecondary
+            val bg = if (isSelected) CharcoalDarkCard else GamingSurface
+            val textColor = if (isSelected) Color.White else TextPrimary
 
             Box(
                 modifier = Modifier
                     .padding(end = 8.dp)
-                    .clip(RoundedCornerShape(20.dp))
+                    .clip(RoundedCornerShape(50))
                     .background(bg)
+                    .border(
+                        1.dp,
+                        if (isSelected) CharcoalDarkCard else GamingBorder,
+                        RoundedCornerShape(50)
+                    )
                     .clickable { onFilterSelected(item.type) }
-                    .padding(horizontal = 20.dp, vertical = 10.dp)
+                    .padding(horizontal = 18.dp, vertical = 9.dp)
             ) {
                 Text(
                     text = item.label,
                     color = textColor,
-                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.SemiBold,
                     fontSize = 13.sp
                 )
             }

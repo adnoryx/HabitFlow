@@ -25,6 +25,7 @@ import habitflow.adnoryx.eu.ui.theme.HabitFlowTheme
 import habitflow.adnoryx.eu.ui.viewmodel.HabitViewModel
 import habitflow.adnoryx.eu.ui.viewmodel.HabitViewModelFactory
 import habitflow.adnoryx.eu.util.LanguageManager
+import habitflow.adnoryx.eu.util.ThemeManager
 
 class MainActivity : ComponentActivity() {
 
@@ -40,6 +41,7 @@ class MainActivity : ComponentActivity() {
 
         try {
             LanguageManager.init(this)
+            ThemeManager.init(this)
 
             val database = AppDatabase.getDatabase(this)
             val habitRepository = HabitRepository(

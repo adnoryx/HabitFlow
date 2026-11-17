@@ -12,13 +12,16 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface HabitDao {
-    @Query("SELECT * FROM habits WHERE isArchived = 0 ORDER BY createdAt DESC")
+    @Query("SELECT * FROM habits WHERE isArchived = 0 ORDER BY sortOrder ASC, createdAt DESC")
     fun getAllActiveHabits(): Flow<List<Habit>>
 
-    @Query("SELECT * FROM habits WHERE isArchived = 0 ORDER BY createdAt DESC")
+    @Query("SELECT * FROM habits WHERE isArchived = 1 ORDER BY sortOrder ASC, createdAt DESC")
+    fun getAllArchivedHabits(): Flow<List<Habit>>
+
+    @Query("SELECT * FROM habits WHERE isArchived = 0 ORDER BY sortOrder ASC, createdAt DESC")
     fun getAllActiveHabitsList(): List<Habit>
 
-    @Query("SELECT * FROM habits")
+    @Query("SELECT * FROM habits ORDER BY sortOrder ASC, createdAt DESC")
     fun getAllHabitsList(): List<Habit>
 
     @Query("SELECT * FROM habits WHERE id = :id")
@@ -30,11 +33,17 @@ interface HabitDao {
     @Update
     fun updateHabit(habit: Habit): Int
 
+    @Update
+    fun updateHabits(habits: List<Habit>): Int
+
     @Delete
     fun deleteHabit(habit: Habit): Int
 
     @Query("SELECT * FROM habit_completions WHERE dateString = :dateString")
     fun getCompletionsForDate(dateString: String): Flow<List<HabitCompletion>>
+
+    @Query("SELECT * FROM habit_completions")
+    fun getAllCompletionsFlow(): Flow<List<HabitCompletion>>
 
     @Query("SELECT * FROM habit_completions WHERE dateString = :dateString")
     fun getCompletionsListForDate(dateString: String): List<HabitCompletion>

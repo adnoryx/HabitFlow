@@ -13,5 +13,7 @@ data class HabitCompletion(
     val id: Long = 0,
     val habitId: Long,
     val dateString: String, // Format "yyyy-MM-dd"
-    val completedAt: Long = System.currentTimeMillis()
+    val completedAt: Long = System.currentTimeMillis(),
+    val progressValue: Int = 1,
+    val isCompleted: Boolean = true
 )

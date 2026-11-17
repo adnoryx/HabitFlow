@@ -1,6 +1,7 @@
 package habitflow.adnoryx.eu.ui.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -32,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,10 +41,14 @@ import androidx.compose.ui.unit.sp
 import habitflow.adnoryx.eu.ui.theme.FreezeIce
 import habitflow.adnoryx.eu.ui.theme.GamingBackground
 import habitflow.adnoryx.eu.ui.theme.GamingBlue
+import habitflow.adnoryx.eu.ui.theme.GamingBorder
 import habitflow.adnoryx.eu.ui.theme.GamingSurface
+import habitflow.adnoryx.eu.ui.theme.GamingSurfaceVariant
+import habitflow.adnoryx.eu.ui.theme.SuccessGreen
 import habitflow.adnoryx.eu.ui.theme.TextMuted
 import habitflow.adnoryx.eu.ui.theme.TextPrimary
 import habitflow.adnoryx.eu.ui.theme.TextSecondary
+import habitflow.adnoryx.eu.ui.theme.WarmButterYellow
 
 data class OnboardingPageData(
     val icon: ImageVector,
@@ -60,17 +65,16 @@ data class OnboardingPageData(
 fun OnboardingScreen(
     onFinish: () -> Unit
 ) {
-    val context = LocalContext.current
     var currentPage by remember { mutableIntStateOf(0) }
 
     val pages = listOf(
         OnboardingPageData(
             icon = Icons.Default.MilitaryTech,
             iconColor = GamingBlue,
-            titleEn = "Gamified Habit Tracker",
-            titleSk = "Gamifikovaný Habit Tracker",
-            titleCz = "Gamifikovaný Habit Tracker",
-            descEn = "Build daily routines, earn XP for completions, keep streak momentum, and level up your avatar to Level 100+!",
+            titleEn = "Warm & Mindful Habit Tracker",
+            titleSk = "Prehľadný Habit Tracker",
+            titleCz = "Přehledný Habit Tracker",
+            descEn = "Build daily routines, earn XP for completions, keep streak momentum, and level up your profile to Level 100+!",
             descSk = "Buduj denné rutiny, získavaj XP za dokončenia, udržiavaj streak momentum a zvyšuj svoj level až po Level 100+!",
             descCz = "Buduj denní rutiny, získávej XP za dokončení, udržuj streak momentum a zvyšuj svůj level až po Level 100+!"
         ),
@@ -86,11 +90,11 @@ fun OnboardingScreen(
         ),
         OnboardingPageData(
             icon = Icons.Default.Security,
-            iconColor = Color(0xFF10B981),
+            iconColor = SuccessGreen,
             titleEn = "100% Offline & Private",
             titleSk = "100% Offline a Súkromné",
             titleCz = "100% Offline a Soukromé",
-            descEn = "Your data stays 100% on your device in an encrypted local database. Export and import JSON backups anytime.",
+            descEn = "Your data stays 100% on your device in a local database. Export and import JSON backups anytime.",
             descSk = "Tvoje dáta zostávajú 100% v tvojom zariadení v lokálnej databáze. Exportuj a importuj JSON zálohy kedykoľvek.",
             descCz = "Tvoje data zůstávají 100% ve tvém zařízení v lokální databázi. Exportuj a importuj JSON zálohy kdykoliv."
         )
@@ -102,6 +106,7 @@ fun OnboardingScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(GamingBackground)
+            .systemBarsPadding()
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
@@ -118,7 +123,8 @@ fun OnboardingScreen(
                         else -> "Skip"
                     },
                     color = TextMuted,
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold
                 )
             }
         }
@@ -137,34 +143,39 @@ fun OnboardingScreen(
 
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(32.dp))
+                .background(GamingSurface)
+                .border(1.dp, GamingBorder, RoundedCornerShape(32.dp))
+                .padding(horizontal = 24.dp, vertical = 36.dp)
         ) {
             Box(
                 modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    .background(GamingSurface),
+                    .size(96.dp)
+                    .clip(RoundedCornerShape(28.dp))
+                    .background(WarmButterYellow),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = page.icon,
                     contentDescription = null,
                     tint = page.iconColor,
-                    modifier = Modifier.size(54.dp)
+                    modifier = Modifier.size(48.dp)
                 )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(28.dp))
 
             Text(
                 text = title,
                 color = TextPrimary,
                 fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.ExtraBold,
                 textAlign = TextAlign.Center
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
             Text(
                 text = desc,
@@ -190,7 +201,7 @@ fun OnboardingScreen(
                             .padding(4.dp)
                             .size(if (isSelected) 12.dp else 8.dp)
                             .clip(CircleShape)
-                            .background(if (isSelected) GamingBlue else Color(0xFF232D42))
+                            .background(if (isSelected) GamingBlue else GamingSurfaceVariant)
                     )
                 }
             }
@@ -212,7 +223,7 @@ fun OnboardingScreen(
                     containerColor = GamingBlue,
                     contentColor = Color.White
                 ),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(50)
             ) {
                 Text(
                     text = if (currentPage < pages.size - 1) {
@@ -223,8 +234,8 @@ fun OnboardingScreen(
                         }
                     } else {
                         when (activeLangCode) {
-                            "sk" -> "Začať Hrať"
-                            "cs" -> "Začít Hrát"
+                            "sk" -> "Začať"
+                            "cs" -> "Začít"
                             else -> "Get Started"
                         }
                     },

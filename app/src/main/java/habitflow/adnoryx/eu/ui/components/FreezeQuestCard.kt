@@ -15,8 +15,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AcUnit
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
@@ -32,13 +32,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import habitflow.adnoryx.eu.data.model.FreezeQuest
-import habitflow.adnoryx.eu.ui.theme.FreezeIce
-import habitflow.adnoryx.eu.ui.theme.FreezeIceContainer
+import habitflow.adnoryx.eu.ui.theme.GamingBlue
 import habitflow.adnoryx.eu.ui.theme.GamingBorder
 import habitflow.adnoryx.eu.ui.theme.GamingSurface
+import habitflow.adnoryx.eu.ui.theme.GamingSurfaceVariant
 import habitflow.adnoryx.eu.ui.theme.SuccessGreen
 import habitflow.adnoryx.eu.ui.theme.TextMuted
 import habitflow.adnoryx.eu.ui.theme.TextPrimary
+import habitflow.adnoryx.eu.ui.theme.TextSecondary
 
 @Composable
 fun FreezeQuestCard(
@@ -49,135 +50,157 @@ fun FreezeQuestCard(
 
     if (quests.isEmpty()) return
 
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
-            .background(GamingSurface)
-            .border(1.dp, GamingBorder, RoundedCornerShape(24.dp))
-            .padding(20.dp)
-    ) {
-        Column {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(bottom = 12.dp)
-            ) {
-                Box(
-                    modifier = Modifier
-                        .size(36.dp)
-                        .clip(CircleShape)
-                        .background(FreezeIceContainer),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.AcUnit,
-                        contentDescription = null,
-                        tint = FreezeIce,
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 10.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = context.getString(habitflow.adnoryx.eu.R.string.freeze_quests_title),
+                color = TextPrimary,
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 18.sp
+            )
+            Text(
+                text = "Quests & Rewards",
+                color = TextSecondary,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Medium
+            )
+        }
 
-                Spacer(modifier = Modifier.width(12.dp))
-
-                Text(
-                    text = context.getString(habitflow.adnoryx.eu.R.string.freeze_quests_title),
-                    color = TextPrimary,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 17.sp
-                )
+        quests.forEachIndexed { index, quest ->
+            val title = when (quest.id) {
+                "quest_7day_streak" -> context.getString(habitflow.adnoryx.eu.R.string.quest_7day_streak)
+                "quest_all_routines" -> context.getString(habitflow.adnoryx.eu.R.string.quest_all_routines)
+                "quest_reach_lvl5" -> context.getString(habitflow.adnoryx.eu.R.string.quest_reach_lvl5)
+                else -> quest.titleKey
             }
 
-            quests.forEach { quest ->
-                val title = when (quest.id) {
-                    "quest_7day_streak" -> context.getString(habitflow.adnoryx.eu.R.string.quest_7day_streak)
-                    "quest_all_routines" -> context.getString(habitflow.adnoryx.eu.R.string.quest_all_routines)
-                    "quest_reach_lvl5" -> context.getString(habitflow.adnoryx.eu.R.string.quest_reach_lvl5)
-                    else -> quest.titleKey
-                }
+            val emoji = when (index % 3) {
+                0 -> "💪"
+                1 -> "⏰"
+                else -> "🏆"
+            }
 
-                val progressFraction = if (quest.targetCount > 0) {
-                    (quest.currentProgress.toFloat() / quest.targetCount.toFloat()).coerceIn(0f, 1f)
-                } else 0f
+            val progressFraction = if (quest.targetCount > 0) {
+                (quest.currentProgress.toFloat() / quest.targetCount.toFloat()).coerceIn(0f, 1f)
+            } else 0f
 
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 6.dp)
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFF182030))
-                        .padding(12.dp)
-                ) {
-                    Column {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 5.dp)
+                    .clip(RoundedCornerShape(22.dp))
+                    .background(GamingSurface)
+                    .border(1.dp, GamingBorder, RoundedCornerShape(22.dp))
+                    .padding(14.dp)
+            ) {
+                Column {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.weight(1f)
                         ) {
-                            Column(modifier = Modifier.weight(1f)) {
+                            Box(
+                                modifier = Modifier
+                                    .size(44.dp)
+                                    .clip(CircleShape)
+                                    .background(GamingSurfaceVariant),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(text = emoji, fontSize = 20.sp)
+                            }
+
+                            Spacer(modifier = Modifier.width(12.dp))
+
+                            Column {
                                 Text(
                                     text = title,
                                     color = TextPrimary,
-                                    fontSize = 13.sp,
-                                    fontWeight = FontWeight.SemiBold
+                                    fontSize = 14.sp,
+                                    fontWeight = FontWeight.Bold
                                 )
                                 Spacer(modifier = Modifier.height(2.dp))
                                 Text(
-                                    text = "${quest.currentProgress}/${quest.targetCount} • +${quest.rewardFreezes} ❄️ +${quest.rewardXp} XP",
-                                    color = FreezeIce,
-                                    fontSize = 11.sp
+                                    text = "${quest.currentProgress}/${quest.targetCount} • +${quest.rewardFreezes} ❄️  +${quest.rewardXp} XP",
+                                    color = TextSecondary,
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Medium
                                 )
-                            }
-
-                            if (quest.isClaimed) {
-                                Row(verticalAlignment = Alignment.CenterVertically) {
-                                    Icon(
-                                        imageVector = Icons.Default.Check,
-                                        contentDescription = null,
-                                        tint = SuccessGreen,
-                                        modifier = Modifier.size(16.dp)
-                                    )
-                                    Spacer(modifier = Modifier.width(4.dp))
-                                    Text(
-                                        text = context.getString(habitflow.adnoryx.eu.R.string.claimed),
-                                        color = SuccessGreen,
-                                        fontSize = 12.sp,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                }
-                            } else {
-                                Button(
-                                    onClick = { onClaimClick(quest.id) },
-                                    enabled = quest.isCompleted,
-                                    colors = ButtonDefaults.buttonColors(
-                                        containerColor = FreezeIce,
-                                        contentColor = Color.Black,
-                                        disabledContainerColor = Color(0xFF222F45),
-                                        disabledContentColor = TextMuted
-                                    ),
-                                    shape = RoundedCornerShape(12.dp),
-                                    modifier = Modifier.height(32.dp)
-                                ) {
-                                    Text(
-                                        text = context.getString(habitflow.adnoryx.eu.R.string.claim_reward),
-                                        fontSize = 11.sp,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                }
                             }
                         }
 
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.width(8.dp))
 
-                        LinearProgressIndicator(
-                            progress = { progressFraction },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(6.dp)
-                                .clip(RoundedCornerShape(3.dp)),
-                            color = FreezeIce,
-                            trackColor = Color(0xFF0F1726)
-                        )
+                        if (quest.isClaimed) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(50))
+                                    .background(SuccessGreen.copy(alpha = 0.15f))
+                                    .padding(horizontal = 10.dp, vertical = 6.dp)
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Check,
+                                    contentDescription = null,
+                                    tint = SuccessGreen,
+                                    modifier = Modifier.size(14.dp)
+                                )
+                                Spacer(modifier = Modifier.width(4.dp))
+                                Text(
+                                    text = context.getString(habitflow.adnoryx.eu.R.string.claimed),
+                                    color = SuccessGreen,
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        } else if (quest.isCompleted) {
+                            Button(
+                                onClick = { onClaimClick(quest.id) },
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = GamingBlue,
+                                    contentColor = Color.White
+                                ),
+                                shape = RoundedCornerShape(50),
+                                modifier = Modifier.height(34.dp)
+                            ) {
+                                Text(
+                                    text = context.getString(habitflow.adnoryx.eu.R.string.claim_reward),
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        } else {
+                            Icon(
+                                imageVector = Icons.Default.ChevronRight,
+                                contentDescription = null,
+                                tint = TextMuted,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
                     }
+
+                    Spacer(modifier = Modifier.height(10.dp))
+
+                    LinearProgressIndicator(
+                        progress = { progressFraction },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(5.dp)
+                            .clip(RoundedCornerShape(3.dp)),
+                        color = if (quest.isCompleted) SuccessGreen else GamingBlue,
+                        trackColor = GamingSurfaceVariant,
+                        gapSize = 0.dp,
+                        drawStopIndicator = {}
+                    )
                 }
             }
         }

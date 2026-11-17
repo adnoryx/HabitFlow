@@ -10,6 +10,21 @@ enum class TimeOfDay {
     EVENING
 }
 
+enum class HabitType {
+    BOOLEAN,
+    COUNTER,
+    TIMER
+}
+
+enum class HabitCategory {
+    GENERAL,
+    HEALTH,
+    FITNESS,
+    MIND,
+    WORK,
+    LEARNING
+}
+
 @Entity(tableName = "habits")
 data class Habit(
     @PrimaryKey(autoGenerate = true)
@@ -21,5 +36,12 @@ data class Habit(
     val currentStreak: Int = 0,
     val bestStreak: Int = 0,
     val createdAt: Long = System.currentTimeMillis(),
-    val isArchived: Boolean = false
+    val isArchived: Boolean = false,
+    val icon: String = "⚡",
+    val category: HabitCategory = HabitCategory.GENERAL,
+    val habitType: HabitType = HabitType.BOOLEAN,
+    val targetValue: Int = 1,
+    val unit: String = "",
+    val sortOrder: Int = 0,
+    val reminderTime: String? = null // Format "HH:mm"
 )

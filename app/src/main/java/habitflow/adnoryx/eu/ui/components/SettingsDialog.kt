@@ -1,6 +1,7 @@
 package habitflow.adnoryx.eu.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -18,9 +19,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.DarkMode
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.HelpOutline
 import androidx.compose.material.icons.filled.Language
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material.icons.filled.SdCard
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Upload
@@ -29,9 +32,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -40,11 +46,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import habitflow.adnoryx.eu.ui.theme.CharcoalDarkCard
 import habitflow.adnoryx.eu.ui.theme.GamingBlue
+import habitflow.adnoryx.eu.ui.theme.GamingBorder
 import habitflow.adnoryx.eu.ui.theme.GamingSurface
+import habitflow.adnoryx.eu.ui.theme.GamingSurfaceVariant
 import habitflow.adnoryx.eu.ui.theme.TextPrimary
 import habitflow.adnoryx.eu.ui.theme.TextSecondary
 import habitflow.adnoryx.eu.util.LanguageManager
+import habitflow.adnoryx.eu.util.ThemeManager
 
 @Composable
 fun SettingsDialog(
@@ -56,18 +66,19 @@ fun SettingsDialog(
 ) {
     val context = LocalContext.current
     val currentLang = LanguageManager.currentLanguage.value
+    val isDark by ThemeManager.isDarkMode
 
     AlertDialog(
         onDismissRequest = onDismiss,
         containerColor = GamingSurface,
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(28.dp),
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     modifier = Modifier
-                        .size(36.dp)
+                        .size(38.dp)
                         .clip(CircleShape)
-                        .background(Color(0xFF1E293B)),
+                        .background(GamingSurfaceVariant),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -85,7 +96,7 @@ fun SettingsDialog(
                         else -> "Settings"
                     },
                     color = TextPrimary,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.ExtraBold,
                     fontSize = 20.sp
                 )
             }
@@ -96,6 +107,64 @@ fun SettingsDialog(
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
+                // Theme Switch Section
+                Text(
+                    text = when (currentLang.code) {
+                        "sk" -> "Vzhľad (Téma)"
+                        "cs" -> "Vzhled (Téma)"
+                        else -> "Appearance"
+                    },
+                    color = TextSecondary,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(GamingSurfaceVariant)
+                        .border(1.dp, GamingBorder, RoundedCornerShape(18.dp))
+                        .clickable { ThemeManager.toggleTheme(context) }
+                        .padding(horizontal = 14.dp, vertical = 10.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Icon(
+                                imageVector = if (isDark) Icons.Default.DarkMode else Icons.Default.LightMode,
+                                contentDescription = null,
+                                tint = GamingBlue
+                            )
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(
+                                text = when (currentLang.code) {
+                                    "sk" -> if (isDark) "Tmavý režim" else "Svetlý režim"
+                                    "cs" -> if (isDark) "Tmavý režim" else "Světlý režim"
+                                    else -> if (isDark) "Dark Mode" else "Light Mode"
+                                },
+                                color = TextPrimary,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 14.sp
+                            )
+                        }
+                        Switch(
+                            checked = isDark,
+                            onCheckedChange = { ThemeManager.setDarkMode(context, it) },
+                            colors = SwitchDefaults.colors(
+                                checkedThumbColor = Color.White,
+                                checkedTrackColor = GamingBlue
+                            )
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(16.dp))
+
                 Text(
                     text = when (currentLang.code) {
                         "sk" -> "Jazyk aplikácie"
@@ -111,8 +180,9 @@ fun SettingsDialog(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFF182030))
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(GamingSurfaceVariant)
+                        .border(1.dp, GamingBorder, RoundedCornerShape(18.dp))
                         .clickable { onLanguageClick() }
                         .padding(14.dp)
                 ) {
@@ -148,8 +218,9 @@ fun SettingsDialog(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFF182030))
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(GamingSurfaceVariant)
+                        .border(1.dp, GamingBorder, RoundedCornerShape(18.dp))
                         .padding(14.dp)
                 ) {
                     Column {
@@ -173,8 +244,11 @@ fun SettingsDialog(
                             Button(
                                 onClick = onExportClick,
                                 modifier = Modifier.weight(1f),
-                                colors = ButtonDefaults.buttonColors(containerColor = GamingBlue),
-                                shape = RoundedCornerShape(10.dp)
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = CharcoalDarkCard,
+                                    contentColor = Color.White
+                                ),
+                                shape = RoundedCornerShape(50)
                             ) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Icon(Icons.Default.Upload, contentDescription = null, modifier = Modifier.size(14.dp))
@@ -190,7 +264,7 @@ fun SettingsDialog(
                             OutlinedButton(
                                 onClick = onImportClick,
                                 modifier = Modifier.weight(1f),
-                                shape = RoundedCornerShape(10.dp)
+                                shape = RoundedCornerShape(50)
                             ) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Icon(Icons.Default.Download, contentDescription = null, tint = TextPrimary, modifier = Modifier.size(14.dp))
@@ -224,8 +298,9 @@ fun SettingsDialog(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .clip(RoundedCornerShape(16.dp))
-                        .background(Color(0xFF182030))
+                        .clip(RoundedCornerShape(18.dp))
+                        .background(GamingSurfaceVariant)
+                        .border(1.dp, GamingBorder, RoundedCornerShape(18.dp))
                         .clickable { onReplayOnboarding() }
                         .padding(14.dp)
                 ) {

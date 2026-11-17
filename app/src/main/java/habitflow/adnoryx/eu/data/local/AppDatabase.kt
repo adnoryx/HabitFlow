@@ -8,7 +8,9 @@ import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import habitflow.adnoryx.eu.data.model.FreezeQuest
 import habitflow.adnoryx.eu.data.model.Habit
+import habitflow.adnoryx.eu.data.model.HabitCategory
 import habitflow.adnoryx.eu.data.model.HabitCompletion
+import habitflow.adnoryx.eu.data.model.HabitType
 import habitflow.adnoryx.eu.data.model.TimeOfDay
 import habitflow.adnoryx.eu.data.model.UserProfile
 
@@ -26,11 +28,39 @@ class Converters {
     } else {
         TimeOfDay.ALL_DAY
     }
+
+    @TypeConverter
+    fun fromHabitType(habitType: HabitType?): String? = habitType?.name
+
+    @TypeConverter
+    fun toHabitType(value: String?): HabitType = if (value != null) {
+        try {
+            HabitType.valueOf(value)
+        } catch (e: Exception) {
+            HabitType.BOOLEAN
+        }
+    } else {
+        HabitType.BOOLEAN
+    }
+
+    @TypeConverter
+    fun fromHabitCategory(category: HabitCategory?): String? = category?.name
+
+    @TypeConverter
+    fun toHabitCategory(value: String?): HabitCategory = if (value != null) {
+        try {
+            HabitCategory.valueOf(value)
+        } catch (e: Exception) {
+            HabitCategory.GENERAL
+        }
+    } else {
+        HabitCategory.GENERAL
+    }
 }
 
 @Database(
     entities = [Habit::class, HabitCompletion::class, UserProfile::class, FreezeQuest::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 @TypeConverters(Converters::class)

@@ -4,17 +4,57 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
+
+    <!--
+      Exact symmetric bounding box: X = 31..77 (center 54.0), Y = 31..77 (center 54.0)
+      Row 1: Y = 31..41 (height 10)
+      Gap 1: 5dp
+      Row 2: Y = 46..62 (height 16, center Y = 54.0)
+      Gap 2: 5dp
+      Row 3: Y = 67..77 (height 10)
+    -->
+
+    <!-- Row 1 Left: Warm Butter Header Pill (X = 31..62, Y = 31..41) -->
     <path
-        android:fillColor="#00000000"
-        android:strokeColor="#0088FF"
-        android:strokeWidth="5.5"
-        android:strokeLineCap="round"
-        android:pathData="M54,20 A34,34 0 1,1 20,54 A34,34 0 0,1 54,20 Z" />
+        android:fillColor="#F5DD7E"
+        android:pathData="M36,31 L57,31 A5,5 0 0,1 62,36 L62,36 A5,5 0 0,1 57,41 L36,41 A5,5 0 0,1 31,36 L31,36 A5,5 0 0,1 36,31 Z" />
+
+    <!-- Row 1 Right: Warm Apricot Streak Circle (Center X = 72, Y = 36, Radius = 5 -> X = 67..77, Y = 31..41) -->
+    <path
+        android:fillColor="#E59853"
+        android:pathData="M72,36 m-5,0 a5,5 0 1,0 10,0 a5,5 0 1,0 -10,0" />
+
+    <!-- Row 2 Left: Sage Green Rounded Checkbox (X = 31..47, Y = 46..62, 16x16 centered at Y = 54) -->
+    <path
+        android:fillColor="#5E8C6A"
+        android:pathData="M35.5,46 L42.5,46 A4.5,4.5 0 0,1 47,50.5 L47,57.5 A4.5,4.5 0 0,1 42.5,62 L35.5,62 A4.5,4.5 0 0,1 31,57.5 L31,50.5 A4.5,4.5 0 0,1 35.5,46 Z" />
+
+    <!-- Crisp White Checkmark centered inside (31..47, 46..62) -->
     <path
         android:fillColor="#00000000"
         android:strokeColor="#FFFFFF"
-        android:strokeWidth="6"
+        android:strokeWidth="2.8"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
-        android:pathData="M40,54 L49,63 L68,44" />
+        android:pathData="M35.2,54.2 L38.0,57.0 L43.0,51.2" />
+
+    <!-- Row 2 Right Top: Charcoal Title Pill (X = 52..77, Y = 47.5..52.5) -->
+    <path
+        android:fillColor="#22211F"
+        android:pathData="M54.5,47.5 L74.5,47.5 A2.5,2.5 0 0,1 77,50 L77,50 A2.5,2.5 0 0,1 74.5,52.5 L54.5,52.5 A2.5,2.5 0 0,1 52,50 L52,50 A2.5,2.5 0 0,1 54.5,47.5 Z" />
+
+    <!-- Row 2 Right Bottom: Warm Muted Subtitle Pill (X = 52..69, Y = 55.5..60.5) -->
+    <path
+        android:fillColor="#9A948A"
+        android:pathData="M54.5,55.5 L66.5,55.5 A2.5,2.5 0 0,1 69,58 L69,58 A2.5,2.5 0 0,1 66.5,60.5 L54.5,60.5 A2.5,2.5 0 0,1 52,58 L52,58 A2.5,2.5 0 0,1 54.5,55.5 Z" />
+
+    <!-- Row 3: Progress Bar Track (X = 31..77, Y = 67..77) -->
+    <path
+        android:fillColor="#E2D9C3"
+        android:pathData="M36,67 L72,67 A5,5 0 0,1 77,72 L77,72 A5,5 0 0,1 72,77 L36,77 A5,5 0 0,1 31,72 L31,72 A5,5 0 0,1 36,67 Z" />
+
+    <!-- Row 3: Active Warm Apricot Progress Fill (X = 31..64, Y = 67..77) -->
+    <path
+        android:fillColor="#E59853"
+        android:pathData="M36,67 L59,67 A5,5 0 0,1 64,72 L64,72 A5,5 0 0,1 59,77 L36,77 A5,5 0 0,1 31,72 L31,72 A5,5 0 0,1 36,67 Z" />
 </vector>

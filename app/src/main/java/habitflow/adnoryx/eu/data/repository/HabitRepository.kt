@@ -5,7 +5,10 @@ import habitflow.adnoryx.eu.data.local.HabitDao
 import habitflow.adnoryx.eu.data.local.UserProfileDao
 import habitflow.adnoryx.eu.data.model.FreezeQuest
 import habitflow.adnoryx.eu.data.model.Habit
+import habitflow.adnoryx.eu.data.model.HabitCategory
 import habitflow.adnoryx.eu.data.model.HabitCompletion
+import habitflow.adnoryx.eu.data.model.HabitType
+import habitflow.adnoryx.eu.data.model.TimeOfDay
 import habitflow.adnoryx.eu.data.model.UserProfile
 import habitflow.adnoryx.eu.domain.LevelSystem
 import habitflow.adnoryx.eu.util.DateUtils
@@ -19,6 +22,8 @@ class HabitRepository(
     private val freezeQuestDao: FreezeQuestDao
 ) {
     val activeHabits: Flow<List<Habit>> = habitDao.getAllActiveHabits()
+    val archivedHabits: Flow<List<Habit>> = habitDao.getAllArchivedHabits()
+    val allCompletions: Flow<List<HabitCompletion>> = habitDao.getAllCompletionsFlow()
     val userProfile: Flow<UserProfile?> = userProfileDao.getUserProfileFlow()
     val freezeQuests: Flow<List<FreezeQuest>> = freezeQuestDao.getAllFreezeQuests()
 
@@ -82,23 +87,39 @@ class HabitRepository(
             )
             freezeQuestDao.insertAllQuests(defaultQuests)
         }
+        updateStreakAndHabitsInternal()
         updateFreezeQuestProgressInternal()
     }
 
-    suspend fun toggleHabitCompletion(habit: Habit, dateString: String): Unit = withContext(Dispatchers.IO) {
+    /**
+     * Toggles a boolean habit completion or completes/resets a measurable habit.
+     * Returns true if the habit just became completed.
+     */
+    suspend fun toggleHabitCompletion(habit: Habit, dateString: String): Boolean = withContext(Dispatchers.IO) {
         val existing = habitDao.getCompletionsListForDate(dateString)
             .find { it.habitId == habit.id }
 
-        val profile = userProfileDao.getUserProfile() ?: return@withContext
+        val profile = userProfileDao.getUserProfile() ?: return@withContext false
 
         var newTotalXp = profile.totalXp
+        val becameCompleted: Boolean
 
-        if (existing == null) {
-            habitDao.insertCompletion(HabitCompletion(habitId = habit.id, dateString = dateString))
+        if (existing == null || !existing.isCompleted) {
+            habitDao.insertCompletion(
+                HabitCompletion(
+                    id = existing?.id ?: 0,
+                    habitId = habit.id,
+                    dateString = dateString,
+                    progressValue = maxOf(1, habit.targetValue),
+                    isCompleted = true
+                )
+            )
             newTotalXp += habit.xpValue
+            becameCompleted = true
         } else {
             habitDao.deleteCompletion(habit.id, dateString)
             newTotalXp = maxOf(0, newTotalXp - habit.xpValue)
+            becameCompleted = false
         }
 
         val levelInfo = LevelSystem.calculateLevelInfo(newTotalXp)
@@ -111,6 +132,59 @@ class HabitRepository(
 
         updateStreakAndHabitsInternal()
         updateFreezeQuestProgressInternal()
+        becameCompleted
+    }
+
+    /**
+     * Updates progress for COUNTER or TIMER habits.
+     * Returns true if the habit transitioned from incomplete to completed.
+     */
+    suspend fun updateHabitProgress(habit: Habit, dateString: String, newProgress: Int): Boolean = withContext(Dispatchers.IO) {
+        val existing = habitDao.getCompletionsListForDate(dateString)
+            .find { it.habitId == habit.id }
+
+        val profile = userProfileDao.getUserProfile() ?: return@withContext false
+        val target = maxOf(1, habit.targetValue)
+        val clampedProgress = maxOf(0, newProgress)
+        val wasCompleted = existing?.isCompleted == true
+        val nowCompleted = clampedProgress >= target
+
+        if (clampedProgress == 0) {
+            if (existing != null) {
+                habitDao.deleteCompletion(habit.id, dateString)
+            }
+        } else {
+            habitDao.insertCompletion(
+                HabitCompletion(
+                    id = existing?.id ?: 0,
+                    habitId = habit.id,
+                    dateString = dateString,
+                    progressValue = clampedProgress,
+                    isCompleted = nowCompleted
+                )
+            )
+        }
+
+        var newTotalXp = profile.totalXp
+        if (!wasCompleted && nowCompleted) {
+            newTotalXp += habit.xpValue
+        } else if (wasCompleted && !nowCompleted) {
+            newTotalXp = maxOf(0, newTotalXp - habit.xpValue)
+        }
+
+        if (newTotalXp != profile.totalXp) {
+            val levelInfo = LevelSystem.calculateLevelInfo(newTotalXp)
+            val updatedProfile = profile.copy(
+                level = levelInfo.level,
+                currentXp = levelInfo.currentLevelXp,
+                totalXp = newTotalXp
+            )
+            userProfileDao.updateProfile(updatedProfile)
+        }
+
+        updateStreakAndHabitsInternal()
+        updateFreezeQuestProgressInternal()
+        (!wasCompleted && nowCompleted)
     }
 
     suspend fun useDayFreeze(): Boolean = withContext(Dispatchers.IO) {
@@ -130,6 +204,23 @@ class HabitRepository(
             lastFreezeUsedDate = today
         )
         userProfileDao.updateProfile(updatedProfile)
+        return@withContext true
+    }
+
+    suspend fun buyFreezeWithXp(costXp: Int = 150): Boolean = withContext(Dispatchers.IO) {
+        val profile = userProfileDao.getUserProfile() ?: return@withContext false
+        if (profile.totalXp < costXp) return@withContext false
+
+        val newTotalXp = profile.totalXp - costXp
+        val levelInfo = LevelSystem.calculateLevelInfo(newTotalXp)
+        val updatedProfile = profile.copy(
+            totalFreezes = profile.totalFreezes + 1,
+            level = levelInfo.level,
+            currentXp = levelInfo.currentLevelXp,
+            totalXp = newTotalXp
+        )
+        userProfileDao.updateProfile(updatedProfile)
+        updateFreezeQuestProgressInternal()
         return@withContext true
     }
 
@@ -154,37 +245,85 @@ class HabitRepository(
         freezeQuestDao.updateQuest(updatedQuest)
     }
 
-    suspend fun addHabit(title: String, description: String, timeOfDay: habitflow.adnoryx.eu.data.model.TimeOfDay, xpValue: Int): Unit = withContext(Dispatchers.IO) {
+    suspend fun addHabit(
+        title: String,
+        description: String,
+        timeOfDay: TimeOfDay,
+        xpValue: Int,
+        icon: String = "⚡",
+        category: HabitCategory = HabitCategory.GENERAL,
+        habitType: HabitType = HabitType.BOOLEAN,
+        targetValue: Int = 1,
+        unit: String = "",
+        reminderTime: String? = null
+    ): Habit = withContext(Dispatchers.IO) {
+        val currentActive = habitDao.getAllActiveHabitsList()
+        val nextSortOrder = (currentActive.maxOfOrNull { it.sortOrder } ?: -1) + 1
         val habit = Habit(
             title = title,
             description = description,
             timeOfDay = timeOfDay,
-            xpValue = xpValue
+            xpValue = xpValue,
+            icon = icon,
+            category = category,
+            habitType = habitType,
+            targetValue = maxOf(1, targetValue),
+            unit = unit,
+            sortOrder = nextSortOrder,
+            reminderTime = reminderTime
         )
-        habitDao.insertHabit(habit)
+        val id = habitDao.insertHabit(habit)
         updateFreezeQuestProgressInternal()
+        habit.copy(id = id)
     }
 
     suspend fun updateHabit(habit: Habit): Unit = withContext(Dispatchers.IO) {
         habitDao.updateHabit(habit)
+        updateFreezeQuestProgressInternal()
+    }
+
+    suspend fun archiveHabit(habit: Habit, archived: Boolean): Unit = withContext(Dispatchers.IO) {
+        habitDao.updateHabit(habit.copy(isArchived = archived))
+        updateStreakAndHabitsInternal()
+        updateFreezeQuestProgressInternal()
+    }
+
+    suspend fun moveHabitOrder(habit: Habit, moveUp: Boolean): Unit = withContext(Dispatchers.IO) {
+        val habits = habitDao.getAllActiveHabitsList().toMutableList()
+        val index = habits.indexOfFirst { it.id == habit.id }
+        if (index == -1) return@withContext
+        val targetIndex = if (moveUp) index - 1 else index + 1
+        if (targetIndex !in habits.indices) return@withContext
+
+        val swapped = habits[targetIndex]
+        habits[targetIndex] = habits[index]
+        habits[index] = swapped
+
+        val updated = habits.mapIndexed { idx, h -> h.copy(sortOrder = idx) }
+        habitDao.updateHabits(updated)
     }
 
     suspend fun deleteHabit(habit: Habit): Unit = withContext(Dispatchers.IO) {
         habitDao.deleteHabit(habit)
+        updateStreakAndHabitsInternal()
+        updateFreezeQuestProgressInternal()
     }
 
     private fun updateStreakAndHabitsInternal() {
-        val today = DateUtils.getTodayString()
         val habits = habitDao.getAllActiveHabitsList()
+        val allCompletions = habitDao.getAllCompletionsList().filter { it.isCompleted }
         val profile = userProfileDao.getUserProfile() ?: return
 
         var overallStreak = 0
         for (habit in habits) {
-            val completions = habitDao.getAllCompletionsList().filter { it.habitId == habit.id }
-            val completedToday = completions.any { it.dateString == today }
-            val streak = if (completedToday) completions.size else completions.size
-            if (streak > overallStreak) {
-                overallStreak = streak
+            val completions = allCompletions.filter { it.habitId == habit.id }
+            val habitStreak = completions.size
+            val newBest = maxOf(habit.bestStreak, habitStreak)
+            if (habit.currentStreak != habitStreak || habit.bestStreak != newBest) {
+                habitDao.updateHabit(habit.copy(currentStreak = habitStreak, bestStreak = newBest))
+            }
+            if (habitStreak > overallStreak) {
+                overallStreak = habitStreak
             }
         }
 
@@ -200,7 +339,7 @@ class HabitRepository(
         val profile = userProfileDao.getUserProfile() ?: return
         val today = DateUtils.getTodayString()
         val habits = habitDao.getAllActiveHabitsList()
-        val completionsToday = habitDao.getCompletionsListForDate(today)
+        val completionsToday = habitDao.getCompletionsListForDate(today).filter { it.isCompleted }
 
         val quests = freezeQuestDao.getAllFreezeQuestsList()
         for (quest in quests) {

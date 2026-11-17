@@ -1,42 +1,64 @@
-# HabitFlow
+<p align="center">
+  <img src="docs/screenshots/icon.png" width="110" alt="HabitFlow Icon" />
+</p>
 
-HabitFlow is an offline, gamified habit tracker built to help you stay consistent with your daily routines, earn XP, level up, and protect your streaks.
+<h1 align="center">HabitFlow</h1>
 
-## Core Concept
+<p align="center">
+  <b>An offline, gamified Editorial Bento habit tracker for Android.</b><br/>
+  Build daily routines, track measurable goals, earn XP, level up, and protect your streaks — 100% offline.
+</p>
 
-HabitFlow treats habit tracking like an RPG. Every routine you complete awards Experience Points (XP). As you collect XP, your player level increases from Level 1 up to Level 100 and beyond.
+---
 
-## How to Use the App
+## Screenshots
 
-### 1. Today Screen
-This is your main daily dashboard.
-* **Date Navigator:** Tap any day of the current week to view your schedule. Use the `<` and `>` arrows to browse past or future weeks. Tap **Today** to jump back to the current day.
-* **Adding a Routine:** Tap the **+ Add Routine** button. Enter the title, optional description, time of day (Morning, Afternoon, Evening, or All Day), and XP reward value.
-* **Checking off Routines:** Tap the circle checkbox next to any habit to mark it complete. 
-  * Note: You can only check off routines for the current day to ensure authentic streak tracking. Past and future days are view-only.
-* **Grouping & Filters:** Use the category chips (All Routines, Morning, Afternoon, Evening) to filter your list. When viewing All Routines, habits are grouped into clear time-of-day sections.
+<p align="center">
+  <img src="docs/screenshots/today.jpg" width="23%" alt="Today Screen" />
+  <img src="docs/screenshots/routines.jpg" width="23%" alt="Routines Screen" />
+  <img src="docs/screenshots/insights.jpg" width="23%" alt="Insights Screen" />
+  <img src="docs/screenshots/trophies.jpg" width="23%" alt="Trophies Screen" />
+</p>
 
-### 2. Day Freezes & Freeze Quests
-Life happens, and sometimes you miss a day. Day Freezes protect your streak when you cannot complete your routines.
+---
 
-* **Day Freeze Rule:** You can store multiple Day Freezes, but you can use at most **1 Day Freeze per calendar day**.
-* **Activating a Freeze:** Tap the **Use Day Freeze** banner inside the Daily Target Ring card on the Today screen. Confirm the prompt to consume 1 freeze and safeguard your streak for the day.
-* **Freeze Quests:** Located right below the Daily Target Ring. Complete quests (such as holding a 7-day streak, completing all daily routines, or reaching Level 5) to earn extra Day Freezes and XP bonuses. Tap **Claim Reward** when a quest is complete.
+## Key Features
 
-### 3. Routines Screen
-The Routines tab lists all your active routines.
-* Tap the three dots menu on any habit card to **Edit** its details or **Delete** it.
+### 1. Editorial Bento UI with Adaptive Dark & Light Mode
+* Crafted with a warm, tactile **Editorial Bento** aesthetic — warm charcoal & amber cards in **Dark Mode** (enabled by default) and warm cream, butter-yellow, sage-green & terracotta cards in **Light Mode**.
+* Instant theme switching inside **Settings (`⚙️`)**.
+* Celebratory **Confetti** animations and tactile **Haptic Feedback** when completing daily goals, leveling up, or claiming rewards.
 
-### 4. Trophies Screen
-Track your RPG progression and view your unlocked achievements.
-* **Level Progress:** Displays your current Level, rank, and XP required for the next level.
-* **Player Stats:** Shows your total XP, best overall streak, and available Day Freezes.
-* **Achievements:** A list of milestones unlocked as you hit level and streak goals.
+### 2. Today Dashboard & Measurable Habits
+* **Date Navigator:** Browse any day of the week with the circular calendar bar (`<` / `>`) or jump straight to Today.
+* **Three Habit Types:**
+  * **Check (Yes / No):** Single-tap rounded checkbox for classic daily habits.
+  * **Counter:** Track numerical goals (e.g., `8 glasses`, `30 pages`) with quick `-` and `+` buttons and a live progress bar.
+  * **Timer:** Built-in live countdown timer (`▶` / `⏸`) and quick `+1m` increment button for timed sessions (e.g., `20 min` reading or meditation).
+* **Custom Emoji Icons & 6 Categories:** Personalize every habit with an emoji icon (`⚡`, `💧`, `🏃`, `📚`, `🧘`, `💪`, etc.) and category (**General**, **Health**, **Fitness**, **Mind**, **Work**, **Learning**).
+* **Smart Filtering:** Filter your daily routines by **Time of Day** (*Morning*, *Afternoon*, *Evening*, *All Day*) and **Category**.
 
-### 5. Settings & Offline Data Transfer
-Access Settings by tapping the gear icon `⚙️` in the top right corner.
-* **Language Selector:** Choose from 9 supported languages (English, Slovak, Czech, German, Spanish, French, Polish, Ukrainian, Italian). The app updates instantly.
-* **Offline JSON Backup:** Since HabitFlow stores all data locally in a Room SQLite database on your device with zero cloud servers:
-  * Tap **Export Data** to save your entire progress to a local `.json` file.
-  * Tap **Import Data** to restore your data from a `.json` backup file onto any device.
-* **Onboarding Guide:** Replay the interactive guide anytime.
+### 3. Day Freezes, Freeze Quests & XP Shop
+* **Day Freeze Protection:** Store multiple Day Freezes and activate up to **1 Day Freeze per calendar day** from the Daily Target Ring card to protect your streak when life gets busy.
+* **Freeze Quests:** Complete milestone quests to earn bonus Day Freezes and XP rewards.
+* **XP Shop:** Exchange **150 XP** directly for an extra **+1 Day Freeze** in the Trophies tab.
+
+### 4. Routines Management (Reordering & Archiving)
+* **Custom Ordering:** Reorder your active routines anytime using the `↑` and `↓` arrows.
+* **Archive & Restore:** Archive seasonal or paused routines without losing your historical completion stats, and restore them with one tap.
+
+### 5. Insights, Analytics & Smart Reminders
+* **Bento Summary Cards:** Track your weekly **Positive Habits** completion rate, best day of the week, and **Habits Wrapped** total check-ins.
+* **7-Day Completion Bar Chart:** Visualize your daily completions over the past week.
+* **28-Day Monthly Consistency Heatmap:** Circular calendar bubble heatmap highlighting active and 100% completed days.
+* **Reminders & Evening Streak Saver:**
+  * Set individual daily notification times for any routine.
+  * Enable the **Evening Streak Saver** alert to get notified before midnight if you still have unfinished habits for the day.
+
+### 6. Trophies & 40 RPG Milestones
+* **RPG Leveling System:** Earn XP from every completed habit and level up from **Level 1** to **Level 100+**.
+* **40 Unlockable Achievements:** Unlock badges across Streaks (up to 365 days), Check-In Volume (up to 500 check-ins), Routine Building, Categories, Quests, and XP milestones — complete with **All / Unlocked / Locked** filters and live progress bars.
+
+### 7. 100% Offline & Multi-Language
+* **9 Supported Languages:** English, Slovak, Czech, German, Spanish, French, Polish, Ukrainian, and Italian.
+* **Local Room Database & JSON Backup:** All data stays 100% private on your device. Export and import full `.json` backups anytime from Settings or Insights.

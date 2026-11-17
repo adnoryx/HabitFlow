@@ -16,10 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AcUnit
 import androidx.compose.material.icons.filled.ChevronRight
-import androidx.compose.material.icons.filled.Shield
-import androidx.compose.material.icons.filled.Timeline
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
@@ -27,21 +24,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import habitflow.adnoryx.eu.data.model.UserProfile
 import habitflow.adnoryx.eu.ui.theme.FreezeIce
-import habitflow.adnoryx.eu.ui.theme.FreezeIceContainer
 import habitflow.adnoryx.eu.ui.theme.GamingBlue
 import habitflow.adnoryx.eu.ui.theme.GamingBorder
 import habitflow.adnoryx.eu.ui.theme.GamingSurface
-import habitflow.adnoryx.eu.ui.theme.TargetGreen
-import habitflow.adnoryx.eu.ui.theme.TextMuted
 import habitflow.adnoryx.eu.ui.theme.TextPrimary
-import habitflow.adnoryx.eu.ui.theme.TextSecondary
+import habitflow.adnoryx.eu.ui.theme.WarmButterBorder
+import habitflow.adnoryx.eu.ui.theme.WarmButterSubtext
+import habitflow.adnoryx.eu.ui.theme.WarmButterTrack
+import habitflow.adnoryx.eu.ui.theme.WarmButterYellow
 
 @Composable
 fun DailyTargetRingCard(
@@ -54,163 +50,110 @@ fun DailyTargetRingCard(
     val percentage = if (totalCount > 0) (completedCount * 100) / totalCount else 0
     val freezesUsedToday = userProfile?.freezesUsedToday ?: 0
     val totalFreezes = userProfile?.totalFreezes ?: 0
-
-    val freezesSubtext = context.getString(
-        habitflow.adnoryx.eu.R.string.freezes_banner_fmt,
-        freezesUsedToday,
-        totalFreezes
-    )
+    val currentStreak = userProfile?.currentStreak ?: 0
+    val level = userProfile?.level ?: 1
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(24.dp))
-            .background(GamingSurface)
-            .border(1.dp, GamingBorder, RoundedCornerShape(24.dp))
+            .clip(RoundedCornerShape(28.dp))
+            .background(WarmButterYellow)
+            .border(1.dp, WarmButterBorder, RoundedCornerShape(28.dp))
             .padding(20.dp)
     ) {
         Column {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.Top
             ) {
                 Box(
                     modifier = Modifier
-                        .size(44.dp)
-                        .clip(CircleShape)
-                        .background(Color(0xFF0F382A)),
+                        .size(52.dp)
+                        .clip(RoundedCornerShape(16.dp))
+                        .background(GamingSurface)
+                        .border(1.dp, GamingBorder, RoundedCornerShape(16.dp)),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Timeline,
-                        contentDescription = null,
-                        tint = TargetGreen,
-                        modifier = Modifier.size(24.dp)
+                    Text(
+                        text = if (percentage >= 100) "☀️" else "🌤️",
+                        fontSize = 26.sp
                     )
                 }
 
-                Spacer(modifier = Modifier.width(12.dp))
+                Column(horizontalAlignment = Alignment.End) {
+                    Text(
+                        text = "$percentage%",
+                        color = TextPrimary,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 36.sp
+                    )
+                    Text(
+                        text = context.getString(habitflow.adnoryx.eu.R.string.daily_target_ring),
+                        color = WarmButterSubtext,
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            // 3-column metrics exactly like Wind / Pressure / Humidity in the inspiration
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Column {
+                    Text(
+                        text = context.getString(habitflow.adnoryx.eu.R.string.completed_routines),
+                        color = WarmButterSubtext,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "$completedCount / $totalCount",
+                        color = TextPrimary,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
 
                 Column {
                     Text(
-                        text = context.getString(habitflow.adnoryx.eu.R.string.daily_target_ring),
-                        color = TextPrimary,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 17.sp
+                        text = context.getString(habitflow.adnoryx.eu.R.string.current_streak_title),
+                        color = WarmButterSubtext,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Medium
                     )
+                    Spacer(modifier = Modifier.height(2.dp))
                     Text(
-                        text = context.getString(habitflow.adnoryx.eu.R.string.activity_goal_metrics),
-                        color = TextSecondary,
-                        fontSize = 12.sp
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(if (freezesUsedToday > 0) FreezeIceContainer else Color(0xFF182234))
-                    .border(
-                        1.dp,
-                        if (freezesUsedToday > 0) FreezeIce else Color(0xFF26354D),
-                        RoundedCornerShape(16.dp)
-                    )
-                    .clickable { onUseFreezeClicked() }
-                    .padding(horizontal = 14.dp, vertical = 12.dp)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        modifier = Modifier.weight(1f)
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .size(36.dp)
-                                .clip(CircleShape)
-                                .background(if (freezesUsedToday > 0) FreezeIce.copy(alpha = 0.2f) else Color(0xFF222F45)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = if (freezesUsedToday > 0) Icons.Default.AcUnit else Icons.Default.Shield,
-                                contentDescription = "Freeze",
-                                tint = if (freezesUsedToday > 0) FreezeIce else TextMuted,
-                                modifier = Modifier.size(20.dp)
-                            )
-                        }
-
-                        Spacer(modifier = Modifier.width(12.dp))
-
-                        Column {
-                            Text(
-                                text = context.getString(habitflow.adnoryx.eu.R.string.use_day_freeze),
-                                color = TextPrimary,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 14.sp
-                            )
-                            Spacer(modifier = Modifier.height(2.dp))
-                            Text(
-                                text = freezesSubtext,
-                                color = if (freezesUsedToday > 0) FreezeIce else TextSecondary,
-                                fontSize = 11.sp,
-                                fontWeight = FontWeight.Medium
-                            )
-                        }
-                    }
-
-                    Box(
-                        modifier = Modifier
-                            .clip(CircleShape)
-                            .background(Color(0xFF222F45))
-                            .padding(6.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.ChevronRight,
-                            contentDescription = null,
-                            tint = TextSecondary,
-                            modifier = Modifier.size(16.dp)
-                        )
-                    }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(20.dp))
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Box(
-                        modifier = Modifier
-                            .size(8.dp)
-                            .clip(CircleShape)
-                            .background(GamingBlue)
-                    )
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(
-                        text = context.getString(habitflow.adnoryx.eu.R.string.completed_routines),
+                        text = "🔥 ${currentStreak}d",
                         color = TextPrimary,
-                        fontSize = 14.sp
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.ExtraBold
                     )
                 }
 
-                Text(
-                    text = "$completedCount/$totalCount ($percentage%)",
-                    color = TextPrimary,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp
-                )
+                Column {
+                    Text(
+                        text = "Level / Shield",
+                        color = WarmButterSubtext,
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Medium
+                    )
+                    Spacer(modifier = Modifier.height(2.dp))
+                    Text(
+                        text = "Lvl $level • ❄️ $totalFreezes",
+                        color = TextPrimary,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.ExtraBold
+                    )
+                }
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(14.dp))
 
             LinearProgressIndicator(
                 progress = { if (totalCount > 0) completedCount.toFloat() / totalCount else 0f },
@@ -219,8 +162,70 @@ fun DailyTargetRingCard(
                     .height(8.dp)
                     .clip(RoundedCornerShape(4.dp)),
                 color = GamingBlue,
-                trackColor = Color(0xFF1B2333)
+                trackColor = WarmButterTrack,
+                gapSize = 0.dp,
+                drawStopIndicator = {}
             )
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // Day Freeze action pill inside the card
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(16.dp))
+                    .background(GamingSurface.copy(alpha = 0.9f))
+                    .border(1.dp, GamingBorder, RoundedCornerShape(16.dp))
+                    .clickable { onUseFreezeClicked() }
+                    .padding(horizontal = 14.dp, vertical = 10.dp)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            text = if (freezesUsedToday > 0) "❄️" else "🛡️",
+                            fontSize = 18.sp
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Column {
+                            Text(
+                                text = context.getString(habitflow.adnoryx.eu.R.string.use_day_freeze),
+                                color = TextPrimary,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 13.sp
+                            )
+                            Text(
+                                text = context.getString(
+                                    habitflow.adnoryx.eu.R.string.freezes_banner_fmt,
+                                    freezesUsedToday,
+                                    totalFreezes
+                                ),
+                                color = if (freezesUsedToday > 0) FreezeIce else WarmButterSubtext,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.Medium
+                            )
+                        }
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .size(28.dp)
+                            .clip(CircleShape)
+                            .background(WarmButterYellow),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.ChevronRight,
+                            contentDescription = null,
+                            tint = TextPrimary,
+                            modifier = Modifier.size(16.dp)
+                        )
+                    }
+                }
+            }
         }
     }
 }

@@ -28,9 +28,9 @@
     <string name="no_freezes_available">No Day Freezes available! Complete quests to earn more.</string>
 
     <string name="freeze_confirmation_title">Use Day Freeze?</string>
-    <string name="freeze_confirmation_msg">Naozaj chceš použiť Day Freeze? Môžeš použiť max. 1 za deň, aby si zachoval svoj streak.</string>
-    <string name="btn_yes_use">Áno, použiť</string>
-    <string name="btn_cancel">Zrušiť</string>
+    <string name="freeze_confirmation_msg">Are you sure you want to use a Day Freeze? You can use at most 1 per day to protect your streak.</string>
+    <string name="btn_yes_use">Yes, use it</string>
+    <string name="btn_cancel">Cancel</string>
 
     <string name="freeze_quests_title">Freeze Quests</string>
     <string name="quest_7day_streak">Get 1 freeze for 7-day streak</string>

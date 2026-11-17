@@ -14,7 +14,7 @@ enum class AppLanguage(val code: String, val displayName: String, val flag: Stri
     SPANISH("es", "Español", "🇪🇸"),
     FRENCH("fr", "Français", "🇫🇷"),
     POLISH("pl", "Polski", "🇵🇱"),
-    UKRAINIAN("uk", "Ukrajina", "🇺🇦"),
+    UKRAINIAN("uk", "Українська", "🇺🇦"),
     ITALIAN("it", "Italiano", "🇮🇹")
 }
 

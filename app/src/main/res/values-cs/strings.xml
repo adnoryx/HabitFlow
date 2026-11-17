@@ -23,13 +23,13 @@
     <string name="protected_by_freeze">❄️ Chráněno Mrazením dne</string>
 
     <string name="freezes_banner_fmt">%1$d/1 Použito dnes • %2$d k dispozici</string>
-    <string name="use_day_freeze">Použit Day Freeze</string>
+    <string name="use_day_freeze">Použít Day Freeze</string>
     <string name="freeze_already_used_today">Day Freeze již byl dnes použit (Max 1/den)</string>
     <string name="no_freezes_available">Žádné Day Freezy k dispozici! Splň úkoly pro další.</string>
 
-    <string name="freeze_confirmation_title">Použit Day Freeze?</string>
-    <string name="freeze_confirmation_msg">Naozaj chceš použiť Day Freeze? Môžeš použiť max. 1 za deň, aby si zachoval svoj streak.</string>
-    <string name="btn_yes_use">Áno, použiť</string>
+    <string name="freeze_confirmation_title">Použít Day Freeze?</string>
+    <string name="freeze_confirmation_msg">Opravdu chceš použít Day Freeze? Můžeš použít max. 1 za den, abys zachoval svůj streak.</string>
+    <string name="btn_yes_use">Ano, použít</string>
     <string name="btn_cancel">Zrušit</string>
 
     <string name="freeze_quests_title">Úkoly pro Freeze</string>

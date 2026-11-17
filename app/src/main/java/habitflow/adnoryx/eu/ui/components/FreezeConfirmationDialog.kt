@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
@@ -27,8 +26,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import habitflow.adnoryx.eu.ui.theme.FreezeIce
-import habitflow.adnoryx.eu.ui.theme.FreezeIceContainer
+import habitflow.adnoryx.eu.ui.theme.GamingBlue
 import habitflow.adnoryx.eu.ui.theme.GamingSurface
+import habitflow.adnoryx.eu.ui.theme.GamingSurfaceVariant
 import habitflow.adnoryx.eu.ui.theme.TextPrimary
 import habitflow.adnoryx.eu.ui.theme.TextSecondary
 
@@ -42,14 +42,14 @@ fun FreezeConfirmationDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         containerColor = GamingSurface,
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(28.dp),
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Box(
                     modifier = Modifier
-                        .size(36.dp)
+                        .size(38.dp)
                         .clip(CircleShape)
-                        .background(FreezeIceContainer),
+                        .background(GamingSurfaceVariant),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
@@ -63,7 +63,7 @@ fun FreezeConfirmationDialog(
                 Text(
                     text = context.getString(habitflow.adnoryx.eu.R.string.freeze_confirmation_title),
                     color = TextPrimary,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.ExtraBold,
                     fontSize = 18.sp
                 )
             }
@@ -80,10 +80,10 @@ fun FreezeConfirmationDialog(
             Button(
                 onClick = onConfirm,
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = FreezeIce,
-                    contentColor = Color.Black
+                    containerColor = GamingBlue,
+                    contentColor = Color.White
                 ),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(50)
             ) {
                 Text(
                     text = context.getString(habitflow.adnoryx.eu.R.string.btn_yes_use),
@@ -94,7 +94,7 @@ fun FreezeConfirmationDialog(
         dismissButton = {
             OutlinedButton(
                 onClick = onDismiss,
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(50)
             ) {
                 Text(
                     text = context.getString(habitflow.adnoryx.eu.R.string.btn_cancel),

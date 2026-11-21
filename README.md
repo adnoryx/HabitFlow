@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/screenshots/icon.png" width="110" alt="HabitFlow Icon" />
+  <img src="docs/screenshots/icon.png?v=1.1.1" width="110" alt="HabitFlow Icon" />
 </p>
 
 <h1 align="center">HabitFlow</h1>

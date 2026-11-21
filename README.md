@@ -13,11 +13,20 @@
 
 ## Screenshots
 
+### Dark Mode
 <p align="center">
-  <img src="docs/screenshots/today.jpg?v=1.1.1" width="23%" alt="Today Screen" />
-  <img src="docs/screenshots/routines.jpg?v=1.1.1" width="23%" alt="Routines Screen" />
-  <img src="docs/screenshots/insights.jpg?v=1.1.1" width="23%" alt="Insights Screen" />
-  <img src="docs/screenshots/trophies.jpg?v=1.1.1" width="23%" alt="Trophies Screen" />
+  <img src="docs/screenshots/today.jpg?v=1.1.2" width="23%" alt="Today Screen (Dark)" />
+  <img src="docs/screenshots/routines.jpg?v=1.1.2" width="23%" alt="Routines Screen (Dark)" />
+  <img src="docs/screenshots/insights.jpg?v=1.1.2" width="23%" alt="Insights Screen (Dark)" />
+  <img src="docs/screenshots/trophies.jpg?v=1.1.2" width="23%" alt="Trophies Screen (Dark)" />
+</p>
+
+### Light Mode
+<p align="center">
+  <img src="docs/screenshots/today_light.jpg?v=1.1.2" width="23%" alt="Today Screen (Light)" />
+  <img src="docs/screenshots/routines_light.jpg?v=1.1.2" width="23%" alt="Routines Screen (Light)" />
+  <img src="docs/screenshots/insights_light.jpg?v=1.1.2" width="23%" alt="Insights Screen (Light)" />
+  <img src="docs/screenshots/trophies_light.jpg?v=1.1.2" width="23%" alt="Trophies Screen (Light)" />
 </p>
 
 ---

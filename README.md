@@ -14,10 +14,10 @@
 ## Screenshots
 
 <p align="center">
-  <img src="docs/screenshots/today.jpg" width="23%" alt="Today Screen" />
-  <img src="docs/screenshots/routines.jpg" width="23%" alt="Routines Screen" />
-  <img src="docs/screenshots/insights.jpg" width="23%" alt="Insights Screen" />
-  <img src="docs/screenshots/trophies.jpg" width="23%" alt="Trophies Screen" />
+  <img src="docs/screenshots/today.jpg?v=1.1.1" width="23%" alt="Today Screen" />
+  <img src="docs/screenshots/routines.jpg?v=1.1.1" width="23%" alt="Routines Screen" />
+  <img src="docs/screenshots/insights.jpg?v=1.1.1" width="23%" alt="Insights Screen" />
+  <img src="docs/screenshots/trophies.jpg?v=1.1.1" width="23%" alt="Trophies Screen" />
 </p>
 
 ---

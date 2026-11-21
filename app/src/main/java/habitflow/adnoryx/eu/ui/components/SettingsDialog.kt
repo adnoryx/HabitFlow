@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -44,6 +45,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import habitflow.adnoryx.eu.ui.theme.CharcoalDarkCard
@@ -93,6 +95,12 @@ fun SettingsDialog(
                     text = when (currentLang.code) {
                         "sk" -> "Nastavenia"
                         "cs" -> "Nastavení"
+                        "de" -> "Einstellungen"
+                        "es" -> "Ajustes"
+                        "fr" -> "Paramètres"
+                        "pl" -> "Ustawienia"
+                        "uk" -> "Налаштування"
+                        "it" -> "Impostazioni"
                         else -> "Settings"
                     },
                     color = TextPrimary,
@@ -107,11 +115,16 @@ fun SettingsDialog(
                     .fillMaxWidth()
                     .verticalScroll(rememberScrollState())
             ) {
-                // Theme Switch Section
                 Text(
                     text = when (currentLang.code) {
                         "sk" -> "Vzhľad (Téma)"
                         "cs" -> "Vzhled (Téma)"
+                        "de" -> "Erscheinungsbild"
+                        "es" -> "Apariencia"
+                        "fr" -> "Apparence"
+                        "pl" -> "Wygląd (Motyw)"
+                        "uk" -> "Вигляд (Тема)"
+                        "it" -> "Aspetto (Tema)"
                         else -> "Appearance"
                     },
                     color = TextSecondary,
@@ -145,11 +158,18 @@ fun SettingsDialog(
                                 text = when (currentLang.code) {
                                     "sk" -> if (isDark) "Tmavý režim" else "Svetlý režim"
                                     "cs" -> if (isDark) "Tmavý režim" else "Světlý režim"
+                                    "de" -> if (isDark) "Dunkelmodus" else "Hellmodus"
+                                    "es" -> if (isDark) "Modo oscuro" else "Modo claro"
+                                    "fr" -> if (isDark) "Mode sombre" else "Mode clair"
+                                    "pl" -> if (isDark) "Tryb ciemny" else "Tryb jasny"
+                                    "uk" -> if (isDark) "Темний режим" else "Світлий режим"
+                                    "it" -> if (isDark) "Modalità scura" else "Modalità chiara"
                                     else -> if (isDark) "Dark Mode" else "Light Mode"
                                 },
                                 color = TextPrimary,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 14.sp
+                                fontSize = 14.sp,
+                                maxLines = 1
                             )
                         }
                         Switch(
@@ -169,6 +189,12 @@ fun SettingsDialog(
                     text = when (currentLang.code) {
                         "sk" -> "Jazyk aplikácie"
                         "cs" -> "Jazyk aplikace"
+                        "de" -> "App-Sprache"
+                        "es" -> "Idioma de la app"
+                        "fr" -> "Langue de l'application"
+                        "pl" -> "Język aplikacji"
+                        "uk" -> "Мова застосунку"
+                        "it" -> "Lingua dell'app"
                         else -> "App Language"
                     },
                     color = TextSecondary,
@@ -198,7 +224,8 @@ fun SettingsDialog(
                                 text = "${currentLang.flag} ${currentLang.displayName}",
                                 color = TextPrimary,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 14.sp
+                                fontSize = 14.sp,
+                                maxLines = 1
                             )
                         }
                         Icon(Icons.Default.ChevronRight, contentDescription = null, tint = TextSecondary)
@@ -228,14 +255,49 @@ fun SettingsDialog(
                             Icon(Icons.Default.SdCard, contentDescription = null, tint = GamingBlue)
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
-                                text = "Offline JSON Backup",
+                                text = when (currentLang.code) {
+                                    "sk" -> "Lokálna JSON záloha"
+                                    "cs" -> "Lokální JSON záloha"
+                                    "de" -> "Lokales JSON-Backup"
+                                    "es" -> "Copia local JSON"
+                                    "fr" -> "Sauvegarde JSON locale"
+                                    "pl" -> "Lokalna kopia JSON"
+                                    "uk" -> "Локальна JSON-копія"
+                                    "it" -> "Backup JSON locale"
+                                    else -> "Offline JSON Backup"
+                                },
                                 color = TextPrimary,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 14.sp
+                                fontSize = 14.sp,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
                             )
                         }
 
                         Spacer(modifier = Modifier.height(12.dp))
+
+                        val exportBtnLabel = when (currentLang.code) {
+                            "sk" -> "Exportovať"
+                            "cs" -> "Exportovat"
+                            "de" -> "Exportieren"
+                            "es" -> "Exportar"
+                            "fr" -> "Exporter"
+                            "pl" -> "Eksportuj"
+                            "uk" -> "Експорт"
+                            "it" -> "Esporta"
+                            else -> "Export JSON"
+                        }
+                        val importBtnLabel = when (currentLang.code) {
+                            "sk" -> "Importovať"
+                            "cs" -> "Importovat"
+                            "de" -> "Importieren"
+                            "es" -> "Importar"
+                            "fr" -> "Importer"
+                            "pl" -> "Importuj"
+                            "uk" -> "Імпорт"
+                            "it" -> "Importa"
+                            else -> "Import JSON"
+                        }
 
                         Row(
                             modifier = Modifier.fillMaxWidth(),
@@ -243,7 +305,10 @@ fun SettingsDialog(
                         ) {
                             Button(
                                 onClick = onExportClick,
-                                modifier = Modifier.weight(1f),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(40.dp),
+                                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 0.dp),
                                 colors = ButtonDefaults.buttonColors(
                                     containerColor = CharcoalDarkCard,
                                     contentColor = Color.White
@@ -252,28 +317,37 @@ fun SettingsDialog(
                             ) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Icon(Icons.Default.Upload, contentDescription = null, modifier = Modifier.size(14.dp))
-                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Spacer(modifier = Modifier.width(5.dp))
                                     Text(
-                                        text = context.getString(habitflow.adnoryx.eu.R.string.export_data),
-                                        fontSize = 11.sp,
-                                        fontWeight = FontWeight.Bold
+                                        text = exportBtnLabel,
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        maxLines = 1,
+                                        softWrap = false,
+                                        overflow = TextOverflow.Ellipsis
                                     )
                                 }
                             }
 
                             OutlinedButton(
                                 onClick = onImportClick,
-                                modifier = Modifier.weight(1f),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .height(40.dp),
+                                contentPadding = PaddingValues(horizontal = 10.dp, vertical = 0.dp),
                                 shape = RoundedCornerShape(50)
                             ) {
                                 Row(verticalAlignment = Alignment.CenterVertically) {
                                     Icon(Icons.Default.Download, contentDescription = null, tint = TextPrimary, modifier = Modifier.size(14.dp))
-                                    Spacer(modifier = Modifier.width(4.dp))
+                                    Spacer(modifier = Modifier.width(5.dp))
                                     Text(
-                                        text = context.getString(habitflow.adnoryx.eu.R.string.import_data),
+                                        text = importBtnLabel,
                                         color = TextPrimary,
-                                        fontSize = 11.sp,
-                                        fontWeight = FontWeight.Bold
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        maxLines = 1,
+                                        softWrap = false,
+                                        overflow = TextOverflow.Ellipsis
                                     )
                                 }
                             }
@@ -287,6 +361,12 @@ fun SettingsDialog(
                     text = when (currentLang.code) {
                         "sk" -> "Sprievodca"
                         "cs" -> "Průvodce"
+                        "de" -> "Einführung"
+                        "es" -> "Guía"
+                        "fr" -> "Guide"
+                        "pl" -> "Przewodnik"
+                        "uk" -> "Посібник"
+                        "it" -> "Guida"
                         else -> "Guide"
                     },
                     color = TextSecondary,
@@ -309,18 +389,30 @@ fun SettingsDialog(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.weight(1f)
+                        ) {
                             Icon(Icons.Default.HelpOutline, contentDescription = null, tint = GamingBlue)
                             Spacer(modifier = Modifier.width(10.dp))
                             Text(
                                 text = when (currentLang.code) {
-                                    "sk" -> "Zobraziť Návod (Onboarding)"
-                                    "cs" -> "Zobrazit Průvodce"
+                                    "sk" -> "Zobraziť návod"
+                                    "cs" -> "Zobrazit návod"
+                                    "de" -> "Anleitung anzeigen"
+                                    "es" -> "Ver guía inicial"
+                                    "fr" -> "Afficher le guide"
+                                    "pl" -> "Pokaż przewodnik"
+                                    "uk" -> "Показати інструкцію"
+                                    "it" -> "Mostra guida iniziale"
                                     else -> "Show Onboarding Guide"
                                 },
                                 color = TextPrimary,
                                 fontWeight = FontWeight.Bold,
-                                fontSize = 14.sp
+                                fontSize = 14.sp,
+                                maxLines = 1,
+                                softWrap = false,
+                                overflow = TextOverflow.Ellipsis
                             )
                         }
                         Icon(Icons.Default.ChevronRight, contentDescription = null, tint = TextSecondary)
@@ -334,6 +426,12 @@ fun SettingsDialog(
                     text = when (currentLang.code) {
                         "sk" -> "Zatvoriť"
                         "cs" -> "Zavřít"
+                        "de" -> "Schließen"
+                        "es" -> "Cerrar"
+                        "fr" -> "Fermer"
+                        "pl" -> "Zamknij"
+                        "uk" -> "Закрити"
+                        "it" -> "Chiudi"
                         else -> "Close"
                     },
                     color = GamingBlue,

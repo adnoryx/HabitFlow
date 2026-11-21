@@ -187,6 +187,12 @@ fun HabitItemCard(
                                 TimeOfDay.ALL_DAY -> when (currentLang.code) {
                                     "sk" -> "Celý deň"
                                     "cs" -> "Celý den"
+                                    "de" -> "Ganztägig"
+                                    "es" -> "Todo el día"
+                                    "fr" -> "Toute la journée"
+                                    "pl" -> "Cały dzień"
+                                    "uk" -> "Весь день"
+                                    "it" -> "Tutto il giorno"
                                     else -> "All Day"
                                 }
                             }
@@ -307,12 +313,24 @@ fun HabitItemCard(
                                                     when (currentLang.code) {
                                                         "sk" -> "Obnoviť z archívu"
                                                         "cs" -> "Obnovit z archivu"
+                                                        "de" -> "Wiederherstellen"
+                                                        "es" -> "Restaurar del archivo"
+                                                        "fr" -> "Restaurer de l'archive"
+                                                        "pl" -> "Przywróć z archiwum"
+                                                        "uk" -> "Відновити з архіву"
+                                                        "it" -> "Ripristina dall'archivio"
                                                         else -> "Restore from Archive"
                                                     }
                                                 } else {
                                                     when (currentLang.code) {
                                                         "sk" -> "Archivovať návyk"
                                                         "cs" -> "Archivovat návyk"
+                                                        "de" -> "Routine archivieren"
+                                                        "es" -> "Archivar rutina"
+                                                        "fr" -> "Archiver la routine"
+                                                        "pl" -> "Archiwizuj rutynę"
+                                                        "uk" -> "Архівувати рутину"
+                                                        "it" -> "Archivia routine"
                                                         else -> "Archive Routine"
                                                     }
                                                 },
@@ -374,6 +392,12 @@ fun HabitItemCard(
                                         val msg = when (currentLang.code) {
                                             "sk" -> "Zapisovať plnenie je možné len pre Dnešok!"
                                             "cs" -> "Zapisovat plnění je možné pouze pro Dnešek!"
+                                            "de" -> "Abhaken ist nur für Heute möglich!"
+                                            "es" -> "¡Los registros solo se permiten para Hoy!"
+                                            "fr" -> "Validations autorisées uniquement pour Aujourd'hui !"
+                                            "pl" -> "Oznaczanie możliwe tylko dla Dzisiaj!"
+                                            "uk" -> "Відмічати виконання можна лише за Сьогодні!"
+                                            "it" -> "I completamenti sono consentiti solo per Oggi!"
                                             else -> "Check-ins are only allowed for Today!"
                                         }
                                         Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
@@ -521,7 +545,31 @@ fun HabitItemCard(
                                     )
                                     Spacer(modifier = Modifier.width(4.dp))
                                     Text(
-                                        text = if (isTimerRunning) "Pause" else "Start",
+                                        text = if (isTimerRunning) {
+                                            when (currentLang.code) {
+                                                "sk" -> "Pauza"
+                                                "cs" -> "Pauza"
+                                                "de" -> "Pause"
+                                                "es" -> "Pausa"
+                                                "fr" -> "Pause"
+                                                "pl" -> "Pauza"
+                                                "uk" -> "Пауза"
+                                                "it" -> "Pausa"
+                                                else -> "Pause"
+                                            }
+                                        } else {
+                                            when (currentLang.code) {
+                                                "sk" -> "Štart"
+                                                "cs" -> "Start"
+                                                "de" -> "Start"
+                                                "es" -> "Iniciar"
+                                                "fr" -> "Démarrer"
+                                                "pl" -> "Start"
+                                                "uk" -> "Старт"
+                                                "it" -> "Avvia"
+                                                else -> "Start"
+                                            }
+                                        },
                                         color = Color.White,
                                         fontSize = 11.sp,
                                         fontWeight = FontWeight.Bold

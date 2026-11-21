@@ -21,18 +21,48 @@ import java.util.Calendar
 object NotificationHelper {
     const val CHANNEL_ID = "habitflow_reminders"
     private const val PREFS_NAME = "habitflow_notif_prefs"
+    private const val LANG_PREFS_NAME = "habitflow_prefs"
+    private const val KEY_LANG = "selected_language"
     private const val KEY_STREAK_SAVER_ENABLED = "streak_saver_enabled"
     private const val KEY_STREAK_SAVER_TIME = "streak_saver_time" // "HH:mm"
     private const val STREAK_SAVER_REQ_CODE = 999999
 
+    fun getSavedLangCode(context: Context): String {
+        val prefs = context.getSharedPreferences(LANG_PREFS_NAME, Context.MODE_PRIVATE)
+        return prefs.getString(KEY_LANG, "en") ?: "en"
+    }
+
     fun createNotificationChannel(context: Context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val lang = getSavedLangCode(context)
+            val channelName = when (lang) {
+                "sk" -> "Pripomienky návykov a Streak Saver"
+                "cs" -> "Připomínky návyků a Streak Saver"
+                "de" -> "Routinen-Erinnerungen & Streak-Schutz"
+                "es" -> "Recordatorios de hábitos y protector de racha"
+                "fr" -> "Rappels d'habitudes et sauvegarde de série"
+                "pl" -> "Przypomnienia o nawykach i Strażnik Serii"
+                "uk" -> "Нагадування про звички та захист серії"
+                "it" -> "Promemoria abitudini e salva-serie"
+                else -> "Habit Reminders & Streak Saver"
+            }
+            val channelDesc = when (lang) {
+                "sk" -> "Denné pripomienky rutín a večerná ochrana streaku"
+                "cs" -> "Denní připomínky rutin a večerní ochrana streaku"
+                "de" -> "Tägliche Erinnerungen für deine Routinen und Abend-Streak-Schutz"
+                "es" -> "Recordatorios diarios para tus rutinas y protección nocturna de racha"
+                "fr" -> "Rappels quotidiens pour vos routines et protection de série le soir"
+                "pl" -> "Codzienne przypomnienia o rutynach i wieczorna ochrona serii"
+                "uk" -> "Щоденні нагадування про рутини та вечірній захист серії"
+                "it" -> "Promemoria giornalieri per le tue routine e protezione serale della serie"
+                else -> "Daily reminders for your routines and evening streak protection"
+            }
             val channel = NotificationChannel(
                 CHANNEL_ID,
-                "Habit Reminders & Streak Saver",
+                channelName,
                 NotificationManager.IMPORTANCE_HIGH
             ).apply {
-                description = "Daily reminders for your routines and evening streak protection"
+                description = channelDesc
             }
             val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             manager.createNotificationChannel(channel)
@@ -234,10 +264,22 @@ class ReminderReceiver : BroadcastReceiver() {
             return
         }
 
+        val lang = NotificationHelper.getSavedLangCode(context)
         val type = intent.getStringExtra("TYPE") ?: "HABIT"
         if (type == "HABIT") {
             val habitId = intent.getLongExtra("HABIT_ID", 0L)
-            val title = intent.getStringExtra("HABIT_TITLE") ?: "Routine Reminder"
+            val defaultTitle = when (lang) {
+                "sk" -> "Pripomienka rutiny"
+                "cs" -> "Připomínka rutiny"
+                "de" -> "Routinen-Erinnerung"
+                "es" -> "Recordatorio de rutina"
+                "fr" -> "Rappel de routine"
+                "pl" -> "Przypomnienie o rutynie"
+                "uk" -> "Нагадування про рутину"
+                "it" -> "Promemoria routine"
+                else -> "Routine Reminder"
+            }
+            val title = intent.getStringExtra("HABIT_TITLE") ?: defaultTitle
             val icon = intent.getStringExtra("HABIT_ICON") ?: "⚡"
 
             val pendingResult = goAsync()
@@ -248,11 +290,22 @@ class ReminderReceiver : BroadcastReceiver() {
                     val completions = db.habitDao().getCompletionsListForDate(today)
                     val done = completions.any { it.habitId == habitId && it.isCompleted }
                     if (!done) {
+                        val bodyMsg = when (lang) {
+                            "sk" -> "Je čas splniť svoju rutinu a získať XP!"
+                            "cs" -> "Je čas splnit svou rutinu a získat XP!"
+                            "de" -> "Zeit, deine Routine abzuschließen und XP zu sammeln!"
+                            "es" -> "¡Es hora de completar tu rutina y ganar XP!"
+                            "fr" -> "Il est temps de compléter votre routine et de gagner des XP !"
+                            "pl" -> "Czas wykonać swoją rutynę i zdobyć XP!"
+                            "uk" -> "Час виконати свою рутину та отримати XP!"
+                            "it" -> "È ora di completare la tua routine e guadagnare XP!"
+                            else -> "Time to complete your routine and earn XP!"
+                        }
                         NotificationHelper.showNotification(
                             context,
                             habitId.toInt(),
                             "$icon $title",
-                            "Time to complete your routine and earn XP!"
+                            bodyMsg
                         )
                     }
                 } finally {
@@ -275,11 +328,33 @@ class ReminderReceiver : BroadcastReceiver() {
 
                     if (activeHabits.isNotEmpty() && remaining > 0 && !freezeUsed) {
                         val streak = profile?.currentStreak ?: 0
+                        val alertTitle = when (lang) {
+                            "sk" -> "🔥 Pozor na svoj Streak!"
+                            "cs" -> "🔥 Pozor na svůj Streak!"
+                            "de" -> "🔥 Streak-Schutz-Warnung!"
+                            "es" -> "🔥 ¡Alerta de protección de racha!"
+                            "fr" -> "🔥 Alerte sauvegarde de série !"
+                            "pl" -> "🔥 Uwaga na Twoją serię!"
+                            "uk" -> "🔥 Увага! Захистіть свою серію!"
+                            "it" -> "🔥 Avviso salva-serie!"
+                            else -> "🔥 Streak Saver Alert!"
+                        }
+                        val alertBody = when (lang) {
+                            "sk" -> "Dnes ti ešte zostáva splniť $remaining rutín! Dokonči ich alebo použi Day Freeze na ochranu ${streak}d streaku."
+                            "cs" -> "Dnes ti ještě zbývá splnit $remaining rutin! Dokonči je nebo použij Day Freeze k ochraně ${streak}d streaku."
+                            "de" -> "Du hast heute noch $remaining offene Routine(n)! Schließe sie ab oder nutze einen Tages-Freeze für deinen ${streak}T-Streak."
+                            "es" -> "¡Aún te quedan $remaining rutina(s) hoy! Complétalas o usa un Congelador para proteger tu racha de ${streak}d."
+                            "fr" -> "Il vous reste encore $remaining routine(s) aujourd'hui ! Complétez-les ou utilisez un Gel pour protéger votre série de ${streak}j."
+                            "pl" -> "Masz dziś jeszcze $remaining rutyn(y) do wykonania! Ukończ je lub użyj Zamrożenia Dnia, by chronić serię ${streak}d."
+                            "uk" -> "Сьогодні залишилося виконати ще $remaining рутин! Завершіть їх або використайте Заморозку для захисту серії ${streak}д."
+                            "it" -> "Hai ancora $remaining routine oggi! Completale o usa un Congelamento per proteggere la tua serie di ${streak}g."
+                            else -> "You still have $remaining routine(s) left today! Complete them or use a Day Freeze to protect your ${streak}d streak."
+                        }
                         NotificationHelper.showNotification(
                             context,
                             999999,
-                            "🔥 Streak Saver Alert!",
-                            "You still have $remaining routine(s) left today! Complete them or use a Day Freeze to protect your ${streak}d streak."
+                            alertTitle,
+                            alertBody
                         )
                     }
                 } finally {

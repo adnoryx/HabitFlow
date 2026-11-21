@@ -57,7 +57,7 @@ fun CalendarWeekBar(
     val monthYearHeader = try {
         val iso = SimpleDateFormat("yyyy-MM-dd", Locale.US)
         val parsed = iso.parse(selectedDateString) ?: Date()
-        val fmt = SimpleDateFormat("MMMM, yyyy", locale)
+        val fmt = SimpleDateFormat("LLLL yyyy", locale)
         fmt.format(parsed).replaceFirstChar { it.uppercase(locale) }
     } catch (e: Exception) {
         selectedDateString

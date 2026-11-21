@@ -159,11 +159,23 @@ fun MainScreen(
                     "freeze_purchased" -> when (currentLang.code) {
                         "sk" -> "❄️ Zakúpený +1 Day Freeze!"
                         "cs" -> "❄️ Zakoupen +1 Day Freeze!"
+                        "de" -> "❄️ +1 Tages-Freeze gekauft!"
+                        "es" -> "❄️ ¡+1 Congelador comprado!"
+                        "fr" -> "❄️ +1 Gel de Jour acheté !"
+                        "pl" -> "❄️ Kupiono +1 Zamrożenie Dnia!"
+                        "uk" -> "❄️ Придбано +1 Заморозку Дня!"
+                        "it" -> "❄️ +1 Congelamento acquistato!"
                         else -> "❄️ Purchased +1 Day Freeze!"
                     }
                     "not_enough_xp" -> when (currentLang.code) {
                         "sk" -> "Nedostatok XP (potrebuješ 150 XP)"
                         "cs" -> "Nedostatek XP (potřebuješ 150 XP)"
+                        "de" -> "Nicht genug XP (150 XP benötigt)"
+                        "es" -> "XP insuficiente (se requieren 150 XP)"
+                        "fr" -> "Pas assez d'XP (150 XP requis)"
+                        "pl" -> "Za mało XP (wymagane 150 XP)"
+                        "uk" -> "Недостатньо XP (потрібно 150 XP)"
+                        "it" -> "XP insufficienti (150 XP richiesti)"
                         else -> "Not enough XP (150 XP required)"
                     }
                     else -> context.getString(habitflow.adnoryx.eu.R.string.export_import_failed)
@@ -287,11 +299,7 @@ fun MainScreen(
                             2 -> InsightsScreen(
                                 userProfile = userProfile,
                                 habits = habits,
-                                allCompletions = allCompletions,
-                                onExportClick = { exportLauncher.launch("habitflow_backup.json") },
-                                onImportClick = { importLauncher.launch("application/json") },
-                                onLanguageClick = { viewModel.setShowLanguageDialog(true) },
-                                onReplayOnboarding = { showOnboarding = true }
+                                allCompletions = allCompletions
                             )
                             3 -> TrophiesScreen(
                                 userProfile = userProfile,

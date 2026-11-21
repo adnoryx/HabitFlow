@@ -61,4 +61,4 @@
 
 ### 7. 100% Offline & Multi-Language
 * **9 Supported Languages:** English, Slovak, Czech, German, Spanish, French, Polish, Ukrainian, and Italian.
-* **Local Room Database & JSON Backup:** All data stays 100% private on your device. Export and import full `.json` backups anytime from Settings or Insights.
+* **Local Room Database & JSON Backup:** All data stays 100% private on your device. Export and import full `.json` backups anytime from Settings.

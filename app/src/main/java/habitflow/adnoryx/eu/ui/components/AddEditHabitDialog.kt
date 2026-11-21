@@ -61,7 +61,18 @@ import habitflow.adnoryx.eu.ui.theme.GamingSurfaceVariant
 import habitflow.adnoryx.eu.ui.theme.TextPrimary
 import habitflow.adnoryx.eu.ui.theme.TextSecondary
 import habitflow.adnoryx.eu.util.LanguageManager
-import java.util.Locale
+
+fun getDefaultCounterUnit(langCode: String): String = when (langCode) {
+    "sk" -> "pohárov"
+    "cs" -> "sklenic"
+    "de" -> "Gläser"
+    "es" -> "vasos"
+    "fr" -> "verres"
+    "pl" -> "szklanek"
+    "uk" -> "склянок"
+    "it" -> "bicchieri"
+    else -> "glasses"
+}
 
 @Composable
 fun AddEditHabitDialog(
@@ -82,6 +93,7 @@ fun AddEditHabitDialog(
 ) {
     val context = LocalContext.current
     val currentLang = LanguageManager.currentLanguage.value
+    val langCode = currentLang.code
 
     var title by remember { mutableStateOf(habitToEdit?.title ?: "") }
     var description by remember { mutableStateOf(habitToEdit?.description ?: "") }
@@ -104,7 +116,7 @@ fun AddEditHabitDialog(
         mutableStateOf(
             habitToEdit?.unit?.ifBlank {
                 when (habitToEdit.habitType) {
-                    HabitType.COUNTER -> "x"
+                    HabitType.COUNTER -> getDefaultCounterUnit(langCode)
                     HabitType.TIMER -> "min"
                     else -> ""
                 }
@@ -122,6 +134,10 @@ fun AddEditHabitDialog(
         containerColor = GamingSurfaceVariant,
         labelColor = TextPrimary
     )
+
+    val allDefaultUnits = remember {
+        setOf("min", "pohárov", "sklenic", "Gläser", "vasos", "verres", "szklanek", "склянок", "bicchieri", "glasses")
+    }
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -144,9 +160,15 @@ fun AddEditHabitDialog(
                     .verticalScroll(rememberScrollState())
             ) {
                 Text(
-                    text = when (currentLang.code) {
+                    text = when (langCode) {
                         "sk" -> "Ikona návyku"
                         "cs" -> "Ikona návyku"
+                        "de" -> "Gewohnheits-Icon"
+                        "es" -> "Icono del hábito"
+                        "fr" -> "Icône de l'habitude"
+                        "pl" -> "Ikona nawyku"
+                        "uk" -> "Іконка звички"
+                        "it" -> "Icona abitudine"
                         else -> "Habit Icon"
                     },
                     color = TextPrimary,
@@ -217,9 +239,15 @@ fun AddEditHabitDialog(
                 Spacer(modifier = Modifier.height(14.dp))
 
                 Text(
-                    text = when (currentLang.code) {
+                    text = when (langCode) {
                         "sk" -> "Kategória"
                         "cs" -> "Kategorie"
+                        "de" -> "Kategorie"
+                        "es" -> "Categoría"
+                        "fr" -> "Catégorie"
+                        "pl" -> "Kategoria"
+                        "uk" -> "Категорія"
+                        "it" -> "Categoria"
                         else -> "Category"
                     },
                     color = TextPrimary,
@@ -235,7 +263,7 @@ fun AddEditHabitDialog(
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     HabitCategory.entries.forEach { cat ->
-                        val catLabel = getCategoryLabel(cat, currentLang.code)
+                        val catLabel = getCategoryLabel(cat, langCode)
                         val isSelected = (selectedCategory == cat)
                         FilterChip(
                             selected = isSelected,
@@ -256,9 +284,15 @@ fun AddEditHabitDialog(
                 Spacer(modifier = Modifier.height(14.dp))
 
                 Text(
-                    text = when (currentLang.code) {
+                    text = when (langCode) {
                         "sk" -> "Typ cieľa"
                         "cs" -> "Typ cíle"
+                        "de" -> "Zieltyp"
+                        "es" -> "Tipo de objetivo"
+                        "fr" -> "Type d'objectif"
+                        "pl" -> "Typ celu"
+                        "uk" -> "Тип цілі"
+                        "it" -> "Tipo di obiettivo"
                         else -> "Goal Type"
                     },
                     color = TextPrimary,
@@ -273,19 +307,37 @@ fun AddEditHabitDialog(
                 ) {
                     HabitType.entries.forEach { type ->
                         val label = when (type) {
-                            HabitType.BOOLEAN -> when (currentLang.code) {
+                            HabitType.BOOLEAN -> when (langCode) {
                                 "sk" -> "Áno/Nie"
                                 "cs" -> "Ano/Ne"
+                                "de" -> "Abhaken"
+                                "es" -> "Sí/No"
+                                "fr" -> "Oui/Non"
+                                "pl" -> "Tak/Nie"
+                                "uk" -> "Так/Ні"
+                                "it" -> "Sì/No"
                                 else -> "Checkmark"
                             }
-                            HabitType.COUNTER -> when (currentLang.code) {
+                            HabitType.COUNTER -> when (langCode) {
                                 "sk" -> "Počítadlo"
                                 "cs" -> "Počítadlo"
+                                "de" -> "Zähler"
+                                "es" -> "Contador"
+                                "fr" -> "Compteur"
+                                "pl" -> "Licznik"
+                                "uk" -> "Лічильник"
+                                "it" -> "Contatore"
                                 else -> "Counter"
                             }
-                            HabitType.TIMER -> when (currentLang.code) {
+                            HabitType.TIMER -> when (langCode) {
                                 "sk" -> "Časovač"
                                 "cs" -> "Časovač"
+                                "de" -> "Timer"
+                                "es" -> "Temporizador"
+                                "fr" -> "Minuteur"
+                                "pl" -> "Minutnik"
+                                "uk" -> "Таймер"
+                                "it" -> "Timer"
                                 else -> "Timer"
                             }
                         }
@@ -296,7 +348,9 @@ fun AddEditHabitDialog(
                                 selectedType = type
                                 if (type == HabitType.COUNTER && (targetValueStr == "1" || targetValueStr.isBlank())) {
                                     targetValueStr = "8"
-                                    if (unit.isBlank() || unit == "min") unit = "pohárov"
+                                    if (unit.isBlank() || unit in allDefaultUnits) {
+                                        unit = getDefaultCounterUnit(langCode)
+                                    }
                                 } else if (type == HabitType.TIMER) {
                                     if (targetValueStr == "1" || targetValueStr == "8") targetValueStr = "15"
                                     unit = "min"
@@ -331,12 +385,26 @@ fun AddEditHabitDialog(
                             label = {
                                 Text(
                                     when (selectedType) {
-                                        HabitType.COUNTER -> when (currentLang.code) {
-                                            "sk", "cs" -> "Cieľový počet"
+                                        HabitType.COUNTER -> when (langCode) {
+                                            "sk" -> "Cieľový počet"
+                                            "cs" -> "Cílový počet"
+                                            "de" -> "Zielanzahl"
+                                            "es" -> "Cantidad objetivo"
+                                            "fr" -> "Nombre cible"
+                                            "pl" -> "Docelowa liczba"
+                                            "uk" -> "Цільова кількість"
+                                            "it" -> "Quantità obiettivo"
                                             else -> "Target Count"
                                         }
-                                        HabitType.TIMER -> when (currentLang.code) {
-                                            "sk", "cs" -> "Cieľ (minúty)"
+                                        HabitType.TIMER -> when (langCode) {
+                                            "sk" -> "Cieľ (minúty)"
+                                            "cs" -> "Cíl (minuty)"
+                                            "de" -> "Ziel (Minuten)"
+                                            "es" -> "Objetivo (minutos)"
+                                            "fr" -> "Objectif (minutes)"
+                                            "pl" -> "Cel (minuty)"
+                                            "uk" -> "Ціль (хвилини)"
+                                            "it" -> "Obiettivo (minuti)"
                                             else -> "Target (minutes)"
                                         }
                                         else -> "Target"
@@ -363,8 +431,15 @@ fun AddEditHabitDialog(
                                 onValueChange = { unit = it },
                                 label = {
                                     Text(
-                                        when (currentLang.code) {
-                                            "sk", "cs" -> "Jednotka (ml, strán)"
+                                        when (langCode) {
+                                            "sk" -> "Jednotka (ml, strán)"
+                                            "cs" -> "Jednotka (ml, stran)"
+                                            "de" -> "Einheit (ml, Seiten)"
+                                            "es" -> "Unidad (ml, páginas)"
+                                            "fr" -> "Unité (ml, pages)"
+                                            "pl" -> "Jednostka (ml, stron)"
+                                            "uk" -> "Одиниця (мл, стор.)"
+                                            "it" -> "Unità (ml, pagine)"
                                             else -> "Unit (ml, pages)"
                                         },
                                         color = TextSecondary,
@@ -396,13 +471,18 @@ fun AddEditHabitDialog(
 
                 Spacer(modifier = Modifier.height(6.dp))
 
-                Row(modifier = Modifier.fillMaxWidth()) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .horizontalScroll(rememberScrollState()),
+                    horizontalArrangement = Arrangement.spacedBy(6.dp)
+                ) {
                     TimeOfDay.entries.forEach { tod ->
                         val label = when (tod) {
-                            TimeOfDay.ALL_DAY -> "All"
-                            TimeOfDay.MORNING -> "Morn"
-                            TimeOfDay.AFTERNOON -> "Aft"
-                            TimeOfDay.EVENING -> "Eve"
+                            TimeOfDay.ALL_DAY -> context.getString(habitflow.adnoryx.eu.R.string.filter_all)
+                            TimeOfDay.MORNING -> context.getString(habitflow.adnoryx.eu.R.string.filter_morning)
+                            TimeOfDay.AFTERNOON -> context.getString(habitflow.adnoryx.eu.R.string.filter_afternoon)
+                            TimeOfDay.EVENING -> context.getString(habitflow.adnoryx.eu.R.string.filter_evening)
                         }
                         val isSelected = (timeOfDay == tod)
                         FilterChip(
@@ -416,8 +496,7 @@ fun AddEditHabitDialog(
                                 borderColor = GamingBorder,
                                 selectedBorderColor = GamingBlue
                             ),
-                            label = { Text(label, fontSize = 11.sp, fontWeight = FontWeight.SemiBold) },
-                            modifier = Modifier.padding(end = 4.dp)
+                            label = { Text(label, fontSize = 11.sp, fontWeight = FontWeight.SemiBold, maxLines = 1) }
                         )
                     }
                 }
@@ -446,15 +525,27 @@ fun AddEditHabitDialog(
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
                             text = if (reminderTime != null) {
-                                when (currentLang.code) {
+                                when (langCode) {
                                     "sk" -> "Pripomienka: $reminderTime"
                                     "cs" -> "Připomínka: $reminderTime"
+                                    "de" -> "Erinnerung: $reminderTime"
+                                    "es" -> "Recordatorio: $reminderTime"
+                                    "fr" -> "Rappel : $reminderTime"
+                                    "pl" -> "Przypomnienie: $reminderTime"
+                                    "uk" -> "Нагадування: $reminderTime"
+                                    "it" -> "Promemoria: $reminderTime"
                                     else -> "Reminder: $reminderTime"
                                 }
                             } else {
-                                when (currentLang.code) {
+                                when (langCode) {
                                     "sk" -> "Nastaviť pripomienku (voliteľné)"
                                     "cs" -> "Nastavit připomínku (volitelné)"
+                                    "de" -> "Tägliche Erinnerung (optional)"
+                                    "es" -> "Recordatorio diario (opcional)"
+                                    "fr" -> "Rappel quotidien (optionnel)"
+                                    "pl" -> "Codzienne przypomnienie (opcjonalne)"
+                                    "uk" -> "Щоденне нагадування (необов'язково)"
+                                    "it" -> "Promemoria giornaliero (opzionale)"
                                     else -> "Set daily reminder (optional)"
                                 }
                             },
@@ -570,31 +661,67 @@ fun getCategoryLabel(category: HabitCategory, langCode: String): String {
         HabitCategory.GENERAL -> when (langCode) {
             "sk" -> "⚡ Všeobecné"
             "cs" -> "⚡ Obecné"
+            "de" -> "⚡ Allgemein"
+            "es" -> "⚡ General"
+            "fr" -> "⚡ Général"
+            "pl" -> "⚡ Ogólne"
+            "uk" -> "⚡ Загальне"
+            "it" -> "⚡ Generale"
             else -> "⚡ General"
         }
         HabitCategory.HEALTH -> when (langCode) {
             "sk" -> "❤️ Zdravie"
             "cs" -> "❤️ Zdraví"
+            "de" -> "❤️ Gesundheit"
+            "es" -> "❤️ Salud"
+            "fr" -> "❤️ Santé"
+            "pl" -> "❤️ Zdrowie"
+            "uk" -> "❤️ Здоров'я"
+            "it" -> "❤️ Salute"
             else -> "❤️ Health"
         }
         HabitCategory.FITNESS -> when (langCode) {
             "sk" -> "💪 Šport"
             "cs" -> "💪 Sport"
+            "de" -> "💪 Fitness"
+            "es" -> "💪 Deporte"
+            "fr" -> "💪 Sport"
+            "pl" -> "💪 Sport"
+            "uk" -> "💪 Спорт"
+            "it" -> "💪 Fitness"
             else -> "💪 Fitness"
         }
         HabitCategory.MIND -> when (langCode) {
             "sk" -> "🧘 Myseľ"
             "cs" -> "🧘 Mysl"
+            "de" -> "🧘 Geist"
+            "es" -> "🧘 Mente"
+            "fr" -> "🧘 Esprit"
+            "pl" -> "🧘 Umysł"
+            "uk" -> "🧘 Розум"
+            "it" -> "🧘 Mente"
             else -> "🧘 Mind"
         }
         HabitCategory.WORK -> when (langCode) {
             "sk" -> "💼 Práca"
             "cs" -> "💼 Práce"
+            "de" -> "💼 Arbeit"
+            "es" -> "💼 Trabajo"
+            "fr" -> "💼 Travail"
+            "pl" -> "💼 Praca"
+            "uk" -> "💼 Робота"
+            "it" -> "💼 Lavoro"
             else -> "💼 Work"
         }
         HabitCategory.LEARNING -> when (langCode) {
             "sk" -> "📚 Štúdium"
             "cs" -> "📚 Studium"
+            "de" -> "📚 Lernen"
+            "es" -> "📚 Estudio"
+            "fr" -> "📚 Étude"
+            "pl" -> "📚 Nauka"
+            "uk" -> "📚 Навчання"
+            "it" -> "📚 Studio"
             else -> "📚 Learning"
         }
     }

@@ -137,8 +137,19 @@ fun DailyTargetRingCard(
                 }
 
                 Column {
+                    val currentLangCode = habitflow.adnoryx.eu.util.LanguageManager.currentLanguage.value.code
                     Text(
-                        text = "Level / Shield",
+                        text = when (currentLangCode) {
+                            "sk" -> "Úroveň / Štít"
+                            "cs" -> "Úroveň / Štít"
+                            "de" -> "Level / Schild"
+                            "es" -> "Nivel / Escudo"
+                            "fr" -> "Niveau / Bouclier"
+                            "pl" -> "Poziom / Tarcza"
+                            "uk" -> "Рівень / Щит"
+                            "it" -> "Livello / Scudo"
+                            else -> "Level / Shield"
+                        },
                         color = WarmButterSubtext,
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Medium

@@ -49,7 +49,6 @@ import habitflow.adnoryx.eu.ui.components.FreezeQuestCard
 import habitflow.adnoryx.eu.ui.components.HabitItemCard
 import habitflow.adnoryx.eu.ui.components.TimeOfDayFilterChips
 import habitflow.adnoryx.eu.ui.components.getCategoryLabel
-import habitflow.adnoryx.eu.ui.theme.CharcoalDarkCard
 import habitflow.adnoryx.eu.ui.theme.GamingBackground
 import habitflow.adnoryx.eu.ui.theme.GamingBlue
 import habitflow.adnoryx.eu.ui.theme.GamingBorder
@@ -63,6 +62,7 @@ import habitflow.adnoryx.eu.ui.theme.WarmButterYellow
 import habitflow.adnoryx.eu.util.DateUtils
 import habitflow.adnoryx.eu.util.LanguageManager
 import java.text.SimpleDateFormat
+import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
@@ -92,7 +92,13 @@ fun TodayScreen(
     val locale = Locale(currentLang.code)
     val isToday = (selectedDate == DateUtils.getTodayString())
 
-    val filteredHabits = habits.filter { habit ->
+    val habitsForSelectedDate = remember(habits, selectedDate) {
+        habits.filter { habit ->
+            DateUtils.millisToDateString(habit.createdAt) <= selectedDate
+        }
+    }
+
+    val filteredHabits = habitsForSelectedDate.filter { habit ->
         val matchesTime = timeFilter == null || habit.timeOfDay == timeFilter || habit.timeOfDay == TimeOfDay.ALL_DAY
         val matchesCategory = categoryFilter == null || habit.category == categoryFilter
         matchesTime && matchesCategory
@@ -100,8 +106,8 @@ fun TodayScreen(
 
     val completionByHabitId = completions.associateBy { it.habitId }
     val completedHabitIds = completions.filter { it.isCompleted }.map { it.habitId }.toSet()
-    val completedCount = habits.count { completedHabitIds.contains(it.id) }
-    val totalCount = habits.size
+    val completedCount = habitsForSelectedDate.count { completedHabitIds.contains(it.id) }
+    val totalCount = habitsForSelectedDate.size
 
     val subtitleText = context.getString(
         habitflow.adnoryx.eu.R.string.routines_completed_fmt,
@@ -113,11 +119,70 @@ fun TodayScreen(
         try {
             val iso = SimpleDateFormat("yyyy-MM-dd", Locale.US)
             val parsed = iso.parse(selectedDate) ?: Date()
+            val cal = Calendar.getInstance().apply { time = parsed }
+            val dow = cal.get(Calendar.DAY_OF_WEEK)
             val dayName = SimpleDateFormat("EEEE", locale).format(parsed)
                 .replaceFirstChar { it.uppercase(locale) }
             when (currentLang.code) {
-                "sk" -> "Krásny $dayName 👋"
-                "cs" -> "Krásný $dayName 👋"
+                "sk" -> {
+                    val phrase = when (dow) {
+                        Calendar.MONDAY -> "Krásny pondelok"
+                        Calendar.TUESDAY -> "Krásny utorok"
+                        Calendar.WEDNESDAY -> "Krásnu stredu"
+                        Calendar.THURSDAY -> "Krásny štvrtok"
+                        Calendar.FRIDAY -> "Krásny piatok"
+                        Calendar.SATURDAY -> "Krásnu sobotu"
+                        Calendar.SUNDAY -> "Krásnu nedeľu"
+                        else -> "Krásny deň"
+                    }
+                    "$phrase 👋"
+                }
+                "cs" -> {
+                    val phrase = when (dow) {
+                        Calendar.MONDAY -> "Krásné pondělí"
+                        Calendar.TUESDAY -> "Krásné úterý"
+                        Calendar.WEDNESDAY -> "Krásnou středu"
+                        Calendar.THURSDAY -> "Krásný čtvrtek"
+                        Calendar.FRIDAY -> "Krásný pátek"
+                        Calendar.SATURDAY -> "Krásnou sobotu"
+                        Calendar.SUNDAY -> "Krásnou neděli"
+                        else -> "Krásný den"
+                    }
+                    "$phrase 👋"
+                }
+                "de" -> "Schönen\n$dayName 👋"
+                "es" -> "Feliz\n$dayName 👋"
+                "fr" -> "Bon\n$dayName 👋"
+                "pl" -> {
+                    val phrase = when (dow) {
+                        Calendar.MONDAY -> "Miłego poniedziałku"
+                        Calendar.TUESDAY -> "Miłego wtorku"
+                        Calendar.WEDNESDAY -> "Miłej środy"
+                        Calendar.THURSDAY -> "Miłego czwartku"
+                        Calendar.FRIDAY -> "Miłego piątku"
+                        Calendar.SATURDAY -> "Miłej soboty"
+                        Calendar.SUNDAY -> "Miłej niedzieli"
+                        else -> "Miłego dnia"
+                    }
+                    "$phrase 👋"
+                }
+                "uk" -> {
+                    val phrase = when (dow) {
+                        Calendar.MONDAY -> "Гарного понеділка"
+                        Calendar.TUESDAY -> "Гарного вівторка"
+                        Calendar.WEDNESDAY -> "Гарної середи"
+                        Calendar.THURSDAY -> "Гарного четверга"
+                        Calendar.FRIDAY -> "Гарної п'ятниці"
+                        Calendar.SATURDAY -> "Гарної суботи"
+                        Calendar.SUNDAY -> "Гарної неділі"
+                        else -> "Гарного дня"
+                    }
+                    "$phrase 👋"
+                }
+                "it" -> {
+                    val prefix = if (dow == Calendar.SUNDAY) "Buona" else "Buon"
+                    "$prefix\n$dayName 👋"
+                }
                 else -> "Happy\n$dayName 👋"
             }
         } catch (_: Exception) {
@@ -147,7 +212,6 @@ fun TodayScreen(
             bottom = 24.dp
         )
     ) {
-        // Editorial "Happy Tuesday 👋" Header + Warm Apricot Pill CTA
         item {
             Spacer(modifier = Modifier.height(6.dp))
             Column(modifier = Modifier.fillMaxWidth()) {
@@ -200,7 +264,6 @@ fun TodayScreen(
             Spacer(modifier = Modifier.height(18.dp))
         }
 
-        // Calendar Card ("December, 2023" style)
         item {
             CalendarWeekBar(
                 selectedDateString = selectedDate,
@@ -231,6 +294,12 @@ fun TodayScreen(
                             text = when (currentLang.code) {
                                 "sk" -> "Iba na čítanie — Plnenie je možné zapisovať len pre Dnešok!"
                                 "cs" -> "Pouze pro čtení — Plnění lze zapisovat pouze pro Dnešek!"
+                                "de" -> "Nur Ansicht — Abhaken ist nur für Heute möglich!"
+                                "es" -> "Solo lectura — ¡Los registros solo se permiten para Hoy!"
+                                "fr" -> "Lecture seule — Les validations ne sont autorisées que pour Aujourd'hui !"
+                                "pl" -> "Tylko podgląd — Oznaczanie jest możliwe tylko dla Dzisiaj!"
+                                "uk" -> "Лише перегляд — Відмічати виконання можна лише за Сьогодні!"
+                                "it" -> "Sola lettura — I completamenti sono consentiti solo per Oggi!"
                                 else -> "View Only — Check-ins are only allowed for Today!"
                             },
                             color = TextPrimary,
@@ -243,7 +312,6 @@ fun TodayScreen(
             }
         }
 
-        // Weather-style Daily Target Ring Card
         item {
             DailyTargetRingCard(
                 userProfile = userProfile,
@@ -254,7 +322,6 @@ fun TodayScreen(
             Spacer(modifier = Modifier.height(20.dp))
         }
 
-        // Today's Todos Section Header
         item {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -265,6 +332,12 @@ fun TodayScreen(
                     text = when (currentLang.code) {
                         "sk" -> "Dnešné úlohy"
                         "cs" -> "Dnešní úkoly"
+                        "de" -> "Heutige Aufgaben"
+                        "es" -> "Tareas de hoy"
+                        "fr" -> "Tâches du jour"
+                        "pl" -> "Dzisiejsze zadania"
+                        "uk" -> "Завдання на сьогодні"
+                        "it" -> "Obiettivi di oggi"
                         else -> "Today's Todos"
                     },
                     color = TextPrimary,
@@ -312,6 +385,12 @@ fun TodayScreen(
                             text = when (currentLang.code) {
                                 "sk" -> "Všetky kategórie"
                                 "cs" -> "Všechny kategorie"
+                                "de" -> "Alle Kategorien"
+                                "es" -> "Todas las categorías"
+                                "fr" -> "Toutes les catégories"
+                                "pl" -> "Wszystkie kategorie"
+                                "uk" -> "Усі категорії"
+                                "it" -> "Tutte le categorie"
                                 else -> "All Categories"
                             },
                             fontSize = 11.sp,
@@ -366,6 +445,18 @@ fun TodayScreen(
                     Text(
                         text = if (habits.isEmpty()) {
                             context.getString(habitflow.adnoryx.eu.R.string.no_routines_yet)
+                        } else if (habitsForSelectedDate.isEmpty()) {
+                            when (currentLang.code) {
+                                "sk" -> "V tento deň ešte neboli vytvorené žiadne rutiny."
+                                "cs" -> "V tento den ještě nebyly vytvořeny žádné rutiny."
+                                "de" -> "An diesem Datum existierten noch keine Routinen."
+                                "es" -> "Aún no existían rutinas en esta fecha."
+                                "fr" -> "Aucune routine n'existait encore à cette date."
+                                "pl" -> "W tym dniu nie istniały jeszcze żadne rutyny."
+                                "uk" -> "На цю дату ще не було створено жодної рутини."
+                                "it" -> "Non esistevano ancora routine in questa data."
+                                else -> "No routines existed on this date yet."
+                            }
                         } else {
                             context.getString(habitflow.adnoryx.eu.R.string.no_routines_time_of_day)
                         },
@@ -396,21 +487,45 @@ fun TodayScreen(
                 TimeOfDay.MORNING to when (currentLang.code) {
                     "sk" -> "🌅 Ranné rutiny"
                     "cs" -> "🌅 Ranní rutiny"
+                    "de" -> "🌅 Morgenroutinen"
+                    "es" -> "🌅 Rutinas de mañana"
+                    "fr" -> "🌅 Routines du matin"
+                    "pl" -> "🌅 Poranne rutyny"
+                    "uk" -> "🌅 Ранкові рутини"
+                    "it" -> "🌅 Routine del mattino"
                     else -> "🌅 Morning Routines"
                 },
                 TimeOfDay.AFTERNOON to when (currentLang.code) {
                     "sk" -> "☀️ Popoludňajšie rutiny"
                     "cs" -> "☀️ Odpolední rutiny"
+                    "de" -> "☀️ Nachmittagsroutinen"
+                    "es" -> "☀️ Rutinas de tarde"
+                    "fr" -> "☀️ Routines de l'après-midi"
+                    "pl" -> "☀️ Popołudniowe rutyny"
+                    "uk" -> "☀️ Денні рутини"
+                    "it" -> "☀️ Routine del pomeriggio"
                     else -> "☀️ Afternoon Routines"
                 },
                 TimeOfDay.EVENING to when (currentLang.code) {
                     "sk" -> "🌙 Večerné rutiny"
                     "cs" -> "🌙 Večerní rutiny"
+                    "de" -> "🌙 Abendroutinen"
+                    "es" -> "🌙 Rutinas de noche"
+                    "fr" -> "🌙 Routines du soir"
+                    "pl" -> "🌙 Wieczorne rutyny"
+                    "uk" -> "🌙 Вечірні рутини"
+                    "it" -> "🌙 Routine della sera"
                     else -> "🌙 Evening Routines"
                 },
                 TimeOfDay.ALL_DAY to when (currentLang.code) {
                     "sk" -> "📅 Celodenné rutiny"
                     "cs" -> "📅 Celodenní rutiny"
+                    "de" -> "📅 Ganztägige Routinen"
+                    "es" -> "📅 Rutinas de todo el día"
+                    "fr" -> "📅 Routines toute la journée"
+                    "pl" -> "📅 Całodniowe rutyny"
+                    "uk" -> "📅 Цілоденні рутини"
+                    "it" -> "📅 Routine di tutto il giorno"
                     else -> "📅 All-Day Routines"
                 }
             )
@@ -469,7 +584,6 @@ fun TodayScreen(
             }
         }
 
-        // Should Do! / Freeze Quests at the bottom
         item {
             Spacer(modifier = Modifier.height(20.dp))
             FreezeQuestCard(

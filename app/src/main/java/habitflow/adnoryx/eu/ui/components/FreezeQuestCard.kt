@@ -64,8 +64,19 @@ fun FreezeQuestCard(
                 fontWeight = FontWeight.ExtraBold,
                 fontSize = 18.sp
             )
+            val currentLangCode = habitflow.adnoryx.eu.util.LanguageManager.currentLanguage.value.code
             Text(
-                text = "Quests & Rewards",
+                text = when (currentLangCode) {
+                    "sk" -> "Úlohy a odmeny"
+                    "cs" -> "Úkoly a odměny"
+                    "de" -> "Quests & Belohnungen"
+                    "es" -> "Misiones y premios"
+                    "fr" -> "Quêtes & récompenses"
+                    "pl" -> "Zadania i nagrody"
+                    "uk" -> "Завдання й нагороди"
+                    "it" -> "Missioni e premi"
+                    else -> "Quests & Rewards"
+                },
                 color = TextSecondary,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Medium

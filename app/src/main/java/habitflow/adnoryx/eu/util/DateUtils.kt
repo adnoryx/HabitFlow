@@ -20,6 +20,14 @@ object DateUtils {
         return isoDateFormat.format(Date())
     }
 
+    fun millisToDateString(millis: Long): String {
+        return try {
+            isoDateFormat.format(Date(millis))
+        } catch (e: Exception) {
+            getTodayString()
+        }
+    }
+
     fun addDays(dateString: String, days: Int): String {
         return try {
             val d = isoDateFormat.parse(dateString) ?: Date()

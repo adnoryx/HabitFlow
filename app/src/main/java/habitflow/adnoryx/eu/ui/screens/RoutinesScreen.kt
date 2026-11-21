@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,6 +34,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import habitflow.adnoryx.eu.data.model.Habit
@@ -67,7 +69,7 @@ fun RoutinesScreen(
         modifier = Modifier
             .fillMaxSize()
             .background(GamingBackground),
-        contentPadding = androidx.compose.foundation.layout.PaddingValues(
+        contentPadding = PaddingValues(
             start = 20.dp,
             end = 20.dp,
             top = 14.dp,
@@ -80,23 +82,40 @@ fun RoutinesScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column {
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = context.getString(habitflow.adnoryx.eu.R.string.nav_routines),
                         color = TextPrimary,
                         fontSize = 30.sp,
-                        fontWeight = FontWeight.ExtraBold
+                        fontWeight = FontWeight.ExtraBold,
+                        maxLines = 1
                     )
                     Text(
-                        text = "${habits.size} Active • ${archivedHabits.size} Archived",
+                        text = when (currentLang.code) {
+                            "sk" -> "${habits.size} aktívnych • ${archivedHabits.size} v archíve"
+                            "cs" -> "${habits.size} aktivních • ${archivedHabits.size} v archivu"
+                            "de" -> "${habits.size} Aktiv • ${archivedHabits.size} Archiviert"
+                            "es" -> "${habits.size} Activas • ${archivedHabits.size} Archivadas"
+                            "fr" -> "${habits.size} Actives • ${archivedHabits.size} Archivées"
+                            "pl" -> "${habits.size} Aktywnych • ${archivedHabits.size} W archiwum"
+                            "uk" -> "${habits.size} Активних • ${archivedHabits.size} В архіві"
+                            "it" -> "${habits.size} Attive • ${archivedHabits.size} Archiviate"
+                            else -> "${habits.size} Active • ${archivedHabits.size} Archived"
+                        },
                         color = TextSecondary,
-                        fontSize = 13.sp,
-                        fontWeight = FontWeight.Medium
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Medium,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis
                     )
                 }
 
+                Spacer(modifier = Modifier.width(10.dp))
+
                 Button(
                     onClick = onAddRoutineClick,
+                    modifier = Modifier.height(42.dp),
+                    contentPadding = PaddingValues(horizontal = 14.dp, vertical = 0.dp),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = GamingBlue,
                         contentColor = Color.White
@@ -109,12 +128,14 @@ fun RoutinesScreen(
                             contentDescription = null,
                             modifier = Modifier
                                 .padding(end = 4.dp)
-                                .size(18.dp)
+                                .size(17.dp)
                         )
                         Text(
                             text = context.getString(habitflow.adnoryx.eu.R.string.add_routine).removePrefix("+ "),
                             fontWeight = FontWeight.Bold,
-                            fontSize = 13.sp
+                            fontSize = 13.sp,
+                            maxLines = 1,
+                            softWrap = false
                         )
                     }
                 }
@@ -144,10 +165,18 @@ fun RoutinesScreen(
                             when (currentLang.code) {
                                 "sk" -> "Aktívne (${habits.size})"
                                 "cs" -> "Aktivní (${habits.size})"
+                                "de" -> "Aktiv (${habits.size})"
+                                "es" -> "Activas (${habits.size})"
+                                "fr" -> "Actives (${habits.size})"
+                                "pl" -> "Aktywne (${habits.size})"
+                                "uk" -> "Активні (${habits.size})"
+                                "it" -> "Attive (${habits.size})"
                                 else -> "Active (${habits.size})"
                             },
                             fontSize = 12.sp,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
+                            maxLines = 1,
+                            softWrap = false
                         )
                     }
                 )
@@ -173,10 +202,18 @@ fun RoutinesScreen(
                             when (currentLang.code) {
                                 "sk" -> "Archivované (${archivedHabits.size})"
                                 "cs" -> "Archivované (${archivedHabits.size})"
+                                "de" -> "Archiviert (${archivedHabits.size})"
+                                "es" -> "Archivadas (${archivedHabits.size})"
+                                "fr" -> "Archivées (${archivedHabits.size})"
+                                "pl" -> "Archiwum (${archivedHabits.size})"
+                                "uk" -> "Архівні (${archivedHabits.size})"
+                                "it" -> "Archiviate (${archivedHabits.size})"
                                 else -> "Archived (${archivedHabits.size})"
                             },
                             fontSize = 12.sp,
-                            fontWeight = FontWeight.SemiBold
+                            fontWeight = FontWeight.SemiBold,
+                            maxLines = 1,
+                            softWrap = false
                         )
                     }
                 )
@@ -198,6 +235,12 @@ fun RoutinesScreen(
                             when (currentLang.code) {
                                 "sk" -> "Žiadne archivované rutiny."
                                 "cs" -> "Žádné archivované rutiny."
+                                "de" -> "Keine archivierten Routinen."
+                                "es" -> "No hay rutinas archivadas."
+                                "fr" -> "Aucune routine archivée."
+                                "pl" -> "Brak zarchiwizowanych rutyn."
+                                "uk" -> "Немає архівованих рутин."
+                                "it" -> "Nessuna routine archiviata."
                                 else -> "No archived routines."
                             }
                         } else {
